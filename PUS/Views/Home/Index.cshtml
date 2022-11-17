@@ -12,11 +12,9 @@
     @if (!SignInManager.IsSignedIn(User))
     {
         <div class="row justify-content-md-center p-1">
-
-
             <div class="alert alert-warning alert-dismissible fade show" role="alert">
                 <strong>Chcesz zobaczyć więcej?</strong>
-                <a href="">Załóż konto na platformie</a> lub  <a href="">zaloguj się</a>.
+                <a href="">Załóż konto na platformie</a> lub <a href="">zaloguj się</a>.
                 <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
             </div>
         </div>
@@ -34,26 +32,33 @@
                     @if (SignInManager.IsSignedIn(User))
                     {
                         <div class="progress mt-1" style="height: 5px">
-                            <div class="progress-bar bg-success" role="progressbar" style="width: 63%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
-                            <div class="progress-bar bg-warning" role="progressbar" style="width: 42%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
-                            <div class="progress-bar bg-danger" role="progressbar" style="width: -5%" aria-valuenow="5" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar bg-success" role="progressbar" style="width: 33%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar bg-warning" role="progressbar" style="width: 33%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar bg-danger" role="progressbar" style="width: 34%" aria-valuenow="5" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
+
                         <div class="btn-group btn-group-sm mt-1 w-100" role="group" aria-label="menu">
+
                             <button onclick="js6zobaczOsobe()" type="button" class="btn btn-outline-secondary">
                                 <i class="fa-solid fa-user-large"></i>
                             </button>
+
                             <button onclick="js6zobaczOfertę()" type="button" class="btn btn-outline-secondary">
                                 <i class="fa-solid fa-eye"></i>
                             </button>
+
                             <button onclick="js6historiaTransakcji()" type="button" class="btn btn-outline-secondary">
                                 <i class="fa-solid fa-piggy-bank"></i> <b>46</b>
                             </button>
+
                             <button onclick="js6Komunikator()" type="button" class="btn btn-outline-secondary">
                                 <i class="fa-solid fa-comments"></i>
                             </button>
+
                             <button onclick="js6zamowienie()" type="button" class="btn btn-outline-secondary">
                                 <i class="fa-solid fa-right-left"></i>
                             </button>
+
                             <button onclick="#" type="button" class="btn btn-outline-secondary">
                                 <i class="fa-solid fa-thumbs-up"></i>
                             </button>
