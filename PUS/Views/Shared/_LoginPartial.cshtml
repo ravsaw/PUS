@@ -3,15 +3,80 @@
 @inject UserManager<IdentityUser> UserManager
 
 <ul class="navbar-nav">
+
     @if (SignInManager.IsSignedIn(User))
     {
+        /*
         <li class="nav-item">
             <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>
         </li>
-        <li class="nav-item">
-            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
-            </form>
+        */
+
+        <li class="nav-item dropdown mr-2">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="true">
+                Twoje oferty
+            </a>
+            <ul class="dropdown-menu  dropdown-menu-end" aria-labelledby="navbarNavDarkDropdown">
+                <li><a class="dropdown-item" href="">Dodaj ofertę</a></li>
+                <li><a class="dropdown-item" href="">Aktywne oferty</a></li>
+                <li><a class="dropdown-item" href="">Archiwum ofert</a></li>
+
+            </ul>
+        </li>
+
+        <li class="nav-item dropdown mr-2">
+
+            <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="true">
+                Zamówienia
+                <sup><span class=" badge rounded-pill bg-danger">4</span></sup>
+
+            </a>
+
+            <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
+                <li>
+                    <a class="dropdown-item" href="javascript:js6UstaleniaZbiorcze()">
+                        Ustalenia <sup><span class=" badge rounded-pill bg-danger">2</span></sup>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="javascript:js6TransakcjeAktywne()">
+                        Transakcje aktywne <sup><span class=" badge rounded-pill bg-danger">2</span></sup>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="javascript:js6kalendarzSchow()">Kalendarz</a>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="javascript:js6TransakcjeArchiwum()">Archiwum transakcji</a>
+                </li>
+
+            </ul>
+        </li>
+
+        <li class="nav-item dropdown mr-2">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="true">
+                Jan Kowalski
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarNavDarkDropdown">
+                <li>
+                    <a class="dropdown-item" href="javascript:js6Profil()">
+                        Mój profil
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="javascript:js6zmianaHasla()">
+                        Zmina hasła
+                    </a>
+                </li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li>
+                    <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                        <button type="submit" class="dropdown-item">Wyloguj</button>
+                    </form>
+                </li>
+            </ul>
         </li>
 
     }

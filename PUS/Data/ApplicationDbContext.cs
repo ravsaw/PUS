@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
+using PUS.Models;
 
 namespace PUS.Data
 {
@@ -9,5 +11,7 @@ namespace PUS.Data
             : base(options)
         {
         }
+
+        public DbSet<Service> Services { get; set; } = null!;
     }
 }
