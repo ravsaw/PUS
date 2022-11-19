@@ -1,0 +1,28 @@
+﻿@model PUS.Models.Service
+
+<div class="modal-header">
+    <h5 class="modal-title" id="Modal1Title"><i class="fa-solid fa-eye"></i> @Html.DisplayFor(model => model.Title) </h5>
+    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+</div>
+<div class="modal-body" id="Modal1Body">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4">
+                <img class="img-fluid" src="img/miod1.jpg">
+            </div><div class="col-sm-8">
+                <b>@Html.DisplayFor(model => model.Title)</b>
+                <br>
+                @Html.DisplayFor(model => model.Description)
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer" id="Modal1Footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+    <button onclick="" type="button" class="btn btn-outline-primary">
+        <i class="fa-solid fa-comments"></i>
+    </button>
+    <button onclick="" type="button" class="btn btn-outline-success">
+        <i class="fa-solid fa-right-left"></i>
+    </button>
+</div>

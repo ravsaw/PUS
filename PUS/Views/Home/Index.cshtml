@@ -7,6 +7,27 @@
     ViewData["Title"] = "Home Page";
 }
 
+@section Scripts {
+    <script type="text/javascript">
+        function show_modal_details(url) {
+            $.ajax({
+                type: "GET",
+                url: url,
+                success: function (response) {
+                    $("#partialModal").find(".modal-content").html(response);
+                    $("#partialModal").modal('show');
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response) {
+                    alert(response.responseText);
+                }
+            });
+        }
+    </script>
+}
+
 <div class="container-fluid">
 
     @if (!SignInManager.IsSignedIn(User))
@@ -15,10 +36,11 @@
             <div class="alert alert-warning alert-dismissible fade show" role="alert">
                 <strong>Chcesz zobaczyć więcej?</strong>
                 <a href="">Załóż konto na platformie</a> lub <a href="">zaloguj się</a>.
-                <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
+                <button type="button" class="btn-close close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         </div>
     }
+
 
     <div class="row justify-content-md-center">
 
@@ -39,11 +61,11 @@
 
                         <div class="btn-group btn-group-sm mt-1 w-100" role="group" aria-label="menu">
 
-                            <button onclick="js6zobaczOsobe()" type="button" class="btn btn-outline-secondary">
+                            <button onclick="" type="button" class="btn btn-outline-secondary">
                                 <i class="fa-solid fa-user-large"></i>
                             </button>
 
-                            <button onclick="js6zobaczOfertę()" type="button" class="btn btn-outline-secondary">
+                            <button url="/Services/_DetailsModal" onclick="show_modal_details(this.url)" type="button" class="btn btn-outline-secondary">
                                 <i class="fa-solid fa-eye"></i>
                             </button>
 
@@ -71,5 +93,12 @@
             </div>
         }
 
+    </div>
+</div>
+
+<div id="partialModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        </div>
     </div>
 </div>

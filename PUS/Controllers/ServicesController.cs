@@ -25,6 +25,13 @@ namespace PUS.Controllers
             return View(await _context.Services.ToListAsync());
         }
 
+        // GET: Services/AddImage
+
+        public IActionResult AddImage()
+        {
+            return View();
+        }
+
         // GET: Services/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -35,12 +42,14 @@ namespace PUS.Controllers
 
             var service = await _context.Services
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (service == null)
             {
                 return NotFound();
             }
 
-            return View(service);
+            return PartialView("Details", service);
+            //return View(service);
         }
 
         // GET: Services/Create
