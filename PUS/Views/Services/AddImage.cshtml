@@ -3,19 +3,49 @@
     ViewData["Title"] = "AddImage";
 }
 
+<div class="d-flex justify-content-center">
+    <div class="col-md-6">
+
+        <div class="card" style="margin-top:10px;">
+
+            <div class="card-header">Cropper in ASP.NET Core</div>
+
+            <div class="card-body">
+                <div id="main-cropper"></div>
+                <input type="file" id="select" class="form-control" value="Choose Image" accept="image/*">
+                <button id="btnupload" style="margin-top: 10px;" name="btnupload" class="btn btn-success">Crop</button>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+@section styles {
+    <style>
+        .croppie-container {
+            width: 100%;
+            height: 80%;
+        }
+    </style>
+
+    <link rel="stylesheet" href="~/lib/croppie/croppie.min.css" />
+}
+
 @section scripts {
     <script src="~/lib/croppie/croppie.min.js"></script>
     <script type="text/javascript">
 
         //initialize Croppie
-        var basic = $('#main-cropper').croppie
+        var basic = $("#main-cropper").croppie
             ({
-                viewport: { width: 300, height: 300 },
-                boundary: { width: 500, height: 400 },
+                viewport: { width: 400, height: 300 },
+                boundary: { width: 500, height: 500 },
                 showZoomer: true,
-                url: '/DefaultImages/preview.jpg',
-                format: 'png' //'jpeg'|'png'|'webp'
+                url: '/img/placeholder.png',
+                format: 'jpeg' | 'png' | 'webp'
             });
+
 
         //Reading the contents of the specified Blob or File
         function readFile(input) {
@@ -37,30 +67,3 @@
     </script>
 
 }
-
-@section styles {
-    <style>
-        .croppie-container {
-            width: 100%;
-            height: 80%;
-        }
-    </style>
-
-    <link rel="stylesheet" href="~/lib/croppie/croppie.min.css" />
-}
-
-
-
-<div class="d-flex justify-content-center">
-    <div class="col-md-6">
-
-        <div class="card" style="margin-top:10px;">
-            <div class="card-header">Cropper in ASP.NET Core</div>
-            <div class="card-body">
-                <div id="main-cropper"></div>
-                <input type="file" id="select" class="form-control" value="Choose Image" accept="image/*">
-                <button id="btnupload" style="margin-top: 10px;" name="btnupload" class="btn btn-success">Crop</button>
-            </div>
-        </div>
-    </div>
-</div>

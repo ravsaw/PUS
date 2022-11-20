@@ -48,7 +48,7 @@ namespace PUS.Controllers
                 return NotFound();
             }
 
-            return PartialView("Details", service);
+            return PartialView("_DetailsModal", service);
             //return View(service);
         }
 

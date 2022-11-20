@@ -47,7 +47,7 @@
         @foreach (var item in Model)
         {
             <div class="card m-2" style="width: 18rem;">
-                <img src="https://pus2.lumendecorde.eu/img/miod1.jpg" class="card-img-top" alt="...">
+                <img src=@($"img/{item.Id}.png") onerror="this.src='img/placeholder.png';" class="card-img-top ratio-4x3" alt="...">
 
                 <div class="card-body m-0 p-0">
 
@@ -61,11 +61,11 @@
 
                         <div class="btn-group btn-group-sm mt-1 w-100" role="group" aria-label="menu">
 
-                            <button onclick="" type="button" class="btn btn-outline-secondary">
+                            <button onclick="show_modal_details('/Services/AddImage)" type="button" class="btn btn-outline-secondary">
                                 <i class="fa-solid fa-user-large"></i>
                             </button>
 
-                            <button url="/Services/_DetailsModal" onclick="show_modal_details(this.url)" type="button" class="btn btn-outline-secondary">
+                            <button onclick="show_modal_details('/Services/Details/' + @item.Id)" type="button" class="btn btn-outline-secondary">
                                 <i class="fa-solid fa-eye"></i>
                             </button>
 
@@ -96,8 +96,8 @@
     </div>
 </div>
 
-<div id="partialModal" class="modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
+<div id="partialModal" class="modal fade show" tabindex="-1" aria-modal="true" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
         </div>
     </div>
