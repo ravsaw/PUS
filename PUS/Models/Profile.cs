@@ -1,6 +1,8 @@
-﻿namespace PUS.Models
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace PUS.Models
 {
-    public class Profile
+    public class Profile: IdentityUser
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
