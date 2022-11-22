@@ -27,7 +27,7 @@ namespace PUS.Controllers
 
         public async Task<IActionResult> SimpleList()
         {
-            //ViewBag.Title = "Aktywne oferty";
+            ViewBag.Title = "Aktywne oferty";
             return PartialView("SimpleList", await _context.Services.ToListAsync());
         }
 
