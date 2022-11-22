@@ -25,6 +25,12 @@ namespace PUS.Controllers
             return View(await _context.Services.ToListAsync());
         }
 
+        public async Task<IActionResult> SimpleList()
+        {
+            //ViewBag.Title = "Aktywne oferty";
+            return PartialView("SimpleList", await _context.Services.ToListAsync());
+        }
+
         // GET: Services/AddImage
 
         public IActionResult AddImage()
@@ -55,7 +61,7 @@ namespace PUS.Controllers
         // GET: Services/Create
         public IActionResult Create()
         {
-            return View();
+            return PartialView("Create");
         }
 
         // POST: Services/Create

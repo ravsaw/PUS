@@ -1,0 +1,56 @@
+﻿@model PUS.Models.Profile
+
+<div class="modal-header">
+    <h5 class="modal-title"><i class="fa-solid fa-user-large"></i> Sąsiad</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+
+<div class="modal-body">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4">
+                <img class="img-fluid ratio-1x1" src=@($"img/avatar/{Model.Id}.jpg") onerror="this.src='img/placeholder.png';">
+            </div>
+            <div class="col-sm-8">
+                <b>@Model.FirstName @Model.LastName</b>
+                <br />
+                @if (Model.Addresses.Count > 0)
+                {
+                    @(Model.Addresses.First().Print) <a target="new" href=""><i class="fa-solid fa-location-dot"></i></a>
+                }
+                else
+                {
+                    <br />
+                }
+                <br />
+                <i class="fa-solid fa-mobile-screen-button"></i> @Model.PhoneNumber
+                <br />
+                <i class="fa-solid fa-envelope"></i> <a href="">@Model.Email</a>
+                <br />
+                <h2><i class="fa-solid fa-piggy-bank"></i> @Model.EQI EQI </h2>
+                <br />
+                Poziom zaufania i oceny:
+                <div class="progress" style="height: 30px">
+                    <div class="progress-bar bg-success" role="progressbar" style="width: @($"{Model.GoodLevel}%")"
+                         aria-valuenow=@Model.GoodLevel aria-valuemin="0" aria-valuemax="100">
+                        @($"{Model.GoodLevel}%")
+                    </div>
+                    <div class="progress-bar bg-warning" role="progressbar" style="width: @($"{Model.NeutralLevel}%")"
+                         aria-valuenow=@Model.NeutralLevel aria-valuemin="0" aria-valuemax="100">
+                        @($"{Model.NeutralLevel}%")
+                    </div>
+                    <div class="progress-bar bg-danger" role="progressbar" style="width: @($"{Model.BadLevel}%")"
+                         aria-valuenow=@Model.BadLevel aria-valuemin="0" aria-valuemax="100">
+                        @($"{Model.BadLevel}%")
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+        Zamknij
+    </button>
+</div>

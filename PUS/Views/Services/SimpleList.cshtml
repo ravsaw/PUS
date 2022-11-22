@@ -1,0 +1,51 @@
+﻿@model IEnumerable<PUS.Models.Service>
+
+<div class="modal-header">
+    <h5 class="modal-title" id="Modal1Title"><i class="fa-solid fa-bars-progress"></i> </h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+<div class="modal-body" id="Modal1Body">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Data od</th>
+                            <th scope="col">Data do</th>
+                            <th scope="col">Oferta</th>
+                            <th scope="col">EQI/transakcje</th>
+                            <th scope="col">&nbsp;</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1.</td>
+                            <td>2021.09.12</td>
+                            <td>2021.09.20</td>
+                            <td>Drobne naprawy krawieckie</td>
+                            <td>3/2</td>
+                            <td class="text-success">
+                                <div class="btn-group btn-group-sm mt-1" role="group" aria-label="menu">
+                                    <button onclick="" type="button" class="btn btn-outline-primary">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                    </button>
+                                    <button onclick="" type="button" class="btn btn-outline-primary">
+                                        <i class="fa-solid fa-eye"></i>
+                                    </button>
+                                    <button onclick="" type="button" class="btn btn-outline-danger">
+                                        <i class="fa-solid fa-trash-can"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer" id="Modal1Footer">
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
+</div>

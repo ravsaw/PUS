@@ -1,38 +1,37 @@
 ﻿@model PUS.Models.Service
 
-@{
-    ViewData["Title"] = "Create";
-}
-
-<h1>Create</h1>
-
-<h4>Service</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
+<div class="modal-header">
+    <h5 class="modal-title"><i class="fa-solid fa-circle-plus"></i> Dodaj nową ofertę</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+<div class="modal-body">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-5">
+                <img class="img-fluid mx-auto d-block" src="img/addPhoto.svg">
+                <div class="m-3">
+                    <input class="form-control" type="file" id="formFile">
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
+            <div class="col-sm-7">
+                <div class="mb-2">
+                    <label for="opis1" class="form-label">Krótki opis oferty:</label>
+                    <input type="text" class="form-control" id="opis1" placeholder="">
+                </div>
+                <div class="mb-2">
+                    <label for="opis2" class="form-label">Szczegóły ofery:</label>
+                    <textarea class="form-control" id="opis2" rows="4"></textarea>
+                </div>
+                <label for="daty" class="form-label">Oferta ważna:</label>
+                <div class="input-group flex-nowrap" id="daty">
+                    <span class="input-group-text" id="addon-wrapping">Od</span><input type="datetime-local" class="form-control " aria-label="praca">
+                    <span class="input-group-text" id="addon-wrapping">do</span><input type="datetime-local" class="form-control " aria-label="praca">
+                </div>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
+<div class="modal-footer" id="Modal1Footer">
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
+    <button type="button" class="btn btn-success" data-bs-dismiss="modal">Zapisz</button>
 </div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}

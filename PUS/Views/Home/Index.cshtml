@@ -7,27 +7,6 @@
     ViewData["Title"] = "Home Page";
 }
 
-@section Scripts {
-    <script type="text/javascript">
-        function show_modal_details(url) {
-            $.ajax({
-                type: "GET",
-                url: url,
-                success: function (response) {
-                    $("#partialModal").find(".modal-content").html(response);
-                    $("#partialModal").modal('show');
-                },
-                failure: function (response) {
-                    alert(response.responseText);
-                },
-                error: function (response) {
-                    alert(response.responseText);
-                }
-            });
-        }
-    </script>
-}
-
 <div class="container-fluid">
 
     @if (!SignInManager.IsSignedIn(User))
@@ -61,11 +40,11 @@
 
                         <div class="btn-group btn-group-sm mt-1 w-100" role="group" aria-label="menu">
 
-                            <button onclick="show_modal_details('/Services/AddImage)" type="button" class="btn btn-outline-secondary">
+                            <button onclick="show_modal_details('@($"/User/Details/{item.UserId}")')" type="button" class="btn btn-outline-secondary">
                                 <i class="fa-solid fa-user-large"></i>
                             </button>
 
-                            <button onclick="show_modal_details('/Services/Details/' + @item.Id)" type="button" class="btn btn-outline-secondary">
+                            <button onclick="show_modal_details('@($"/Services/Details/{item.Id}")')" type="button" class="btn btn-outline-secondary">
                                 <i class="fa-solid fa-eye"></i>
                             </button>
 
@@ -93,12 +72,5 @@
             </div>
         }
 
-    </div>
-</div>
-
-<div id="partialModal" class="modal fade show" tabindex="-1" aria-modal="true" role="dialog">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-        </div>
     </div>
 </div>
