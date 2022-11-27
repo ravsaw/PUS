@@ -1,0 +1,53 @@
+﻿@model PUS.ViewModels.LoginViewModel
+
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+<div class="modal-header">
+    <h5 class="modal-title"><i class="fa-solid fa-arrow-right-to-bracket"></i>Login</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+
+
+<div class="modal-body">
+    <form id="account" method="post" action="Account/Login">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="form-group">
+            <label asp-for="Email" class="form-label">Twój adres e-mail</label>
+            <input asp-for="Email" class="form-control" autocomplete="email" aria-required="true" placeholder="Adres e-mail" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Password" class="form-label">Hasło</label>
+            <input asp-for="Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="Hasło" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+        <div>
+            <div class="checkbox">
+                <label asp-for="RememberMe" class="form-label">
+                    <input class="form-check-input" asp-for="RememberMe" />
+                    @Html.DisplayNameFor(m => m.RememberMe)
+                </label>
+            </div>
+        </div>
+
+        <div class="form-check">
+            <small id="emailHelp" class="form-text text-muted">
+                <a asp-area="" asp-controller="Account" asp-action="ForgotPassword">Nie pamiętasz hasła?</a>
+            </small>
+            <br>
+            <small id="emailHelp" class="form-text text-muted">
+                <a asp-area="" asp-controller="Account" asp-action="Register">Załóż konto na platformie.</a>
+            </small>
+        </div>
+
+    </form>
+</div>
+
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
+    <button id="login-submit" type="submit" form="account" class="btn btn-outline-success">Login</button>
+</div>

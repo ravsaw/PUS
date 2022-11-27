@@ -6,16 +6,21 @@
 
     <title>@ViewData["Title"] - PUS</title>
 
+    <!-- shared styles -->
     <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/PUS.styles.css" asp-append-version="true" />
+    <!-- added styles -->
     @await RenderSectionAsync("Styles", required: false)
 
+    <!-- ========================================================== -->
+    <!-- shared scripts -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="~/lib/font-awesome/js/all.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
     <script type="text/javascript">
         function show_modal_details(url) {
             $.ajax({
@@ -34,7 +39,9 @@
             });
         }
     </script>
+    <!-- added scripts -->
     @await RenderSectionAsync("Scripts", required: false)
+    <!-- ========================================================== -->
 </head>
 
 <body style="background-color: #ffffe6">
