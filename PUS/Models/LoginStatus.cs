@@ -1,9 +1,16 @@
 ﻿namespace PUS.Models
 {
+    public enum Status : int
+    {
+        Unknow = 999,
+        Success = 0,
+        WrongEmailOrPassword = 1,
+        Locked = 2,
+    }
+
     public class LoginStatus
     {
-        public bool Success { get; set; }
-        public string Message { get; set; }
-        public string TargetURL { get; set; }
+        public Status Status { get; set; }
+        public string Message { get; set; } = string.Empty;
     }
 }

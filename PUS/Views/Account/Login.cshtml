@@ -2,6 +2,41 @@
 
 <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
 <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+<script>
+    $('#account').submit(function (e) {
+        e.preventDefault();
+        var $form = $(this);
+        if (!$form.valid) return false;
+        var data = $("#account").serialize();
+        $.ajax({
+            type: "POST",
+            url: "/Account/Login",
+            data: data,
+            success: function (response) {
+                switch (response.status) {
+                    case 0:
+                        window.location.reload();
+                        break;
+                    case 1:
+                        var span = document.getElementById('validation-email');
+                        span.innerHTML = '<span id="Email-error" class="" > ' + response.message;
+                        var span = document.getElementById('validation-password');
+                        span.innerHTML = '<span id="Password-error" class="" > ' + response.message;
+                        break;
+                    default:
+                        console.log(response);
+                }
+            },
+            failure: function (response) {
+                console.log(response);
+            },
+            error: function (response) {
+                console.log(response);
+            }
+        });
+    });
+</script>
+
 
 <div class="modal-header">
     <h5 class="modal-title"><i class="fa-solid fa-arrow-right-to-bracket"></i>Login</h5>
@@ -16,13 +51,13 @@
         <div class="form-group">
             <label asp-for="Email" class="form-label">Twój adres e-mail</label>
             <input asp-for="Email" class="form-control" autocomplete="email" aria-required="true" placeholder="Adres e-mail" />
-            <span asp-validation-for="Email" class="text-danger"></span>
+            <span asp-validation-for="Email" id="validation-email" class="text-danger"></span>
         </div>
 
         <div class="form-group">
             <label asp-for="Password" class="form-label">Hasło</label>
             <input asp-for="Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="Hasło" />
-            <span asp-validation-for="Password" class="text-danger"></span>
+            <span asp-validation-for="Password" id="validation-password" class="text-danger"></span>
         </div>
         <div>
             <div class="checkbox">

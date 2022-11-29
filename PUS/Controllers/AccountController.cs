@@ -13,6 +13,7 @@ using Microsoft.Extensions.Logging;
 using PUS.Models;
 using PUS.ViewModels;
 using Microsoft.EntityFrameworkCore;
+using System.Net.NetworkInformation;
 
 namespace PUS.Controllers
 {
@@ -47,31 +48,29 @@ namespace PUS.Controllers
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
-                    status.Success = true;
+                    status.Status = Status.Success;
                     status.Message = "Sukces";
                 }
                 else if (result.IsLockedOut)
                 {
                     _logger.LogWarning("User account locked out.");
-                    status.Success = false;
+                    status.Status = Status.Locked;
                     status.Message = "Użytkownik jest zablokowany.";
                 }
                 else
                 {
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                    status.Success = false;
+                    status.Status = Status.WrongEmailOrPassword;
                     status.Message = "Niewłaściwy email lub hasło";
                 }
             }
             else
             {
-                status.Success = false;
+                status.Status = Status.Unknow;
                 status.Message = "model not valid" + ModelState.Values;
             }
 
             return Json(status);
         }
-
-
     }
 }
