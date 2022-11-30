@@ -7,11 +7,12 @@ namespace PUS.ViewModels
     public class LoginViewModel
     {
 
-        [Required(ErrorMessage = "Należy wpisać adres email")]
+        [Required(ErrorMessage = "Pole jest wymagane.")]
         [EmailAddress(ErrorMessage = "Podano niepoprawny adres email")]
+        [Display(Name = "Email")]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "Należy wpisać hasło")]
+        [Required(ErrorMessage = "Pole jest wymagane.")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 

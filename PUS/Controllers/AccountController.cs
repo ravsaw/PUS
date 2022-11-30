@@ -72,5 +72,12 @@ namespace PUS.Controllers
 
             return Json(status);
         }
+
+
+        [HttpGet]
+        public async Task<IActionResult> Register()
+        {
+            return PartialView();
+        }
     }
 }

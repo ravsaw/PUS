@@ -1,0 +1,83 @@
+﻿@model PUS.ViewModels.RegisterViewModel
+
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+<script>
+    $('#account').submit(function (e) {
+        $("#validation-statute-checkbox")[0].innerHTML = '';
+        e.preventDefault();
+        if (!$(this).valid) return false;
+        if (!$("#statute-checkbox")[0].checked) {
+            $("#validation-statute-checkbox")[0]
+                .innerHTML = '<br><span id="statute-checkbox-error" class="" > Należy zaakceptować regulamin, aby utworzyć konto.';
+            return false;
+        }
+        var data = $("#account").serialize();
+        $.ajax({
+            type: "POST",
+            url: "/Account/Register",
+            data: data,
+            success: function (response) {
+                switch (response.status) {
+                    case 0:
+                        window.location.reload();
+                        break;
+                    default:
+                        console.log(response);
+                }
+            },
+            failure: function (response) {
+                console.log(response);
+            },
+            error: function (response) {
+                console.log(response);
+            }
+        });
+    });
+</script>
+
+<div class="modal-header">
+    <h5 class="modal-title"> <i class="fa-solid fa-arrow-right-to-bracket"></i> Nowy użytkownik</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+
+<div class="modal-body">
+    <form id="account" method="post" action="Account/Register">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="form-group">
+            <label asp-for="Email" class="form-label">Twój adres e-mail</label>
+            <input asp-for="Email" class="form-control" autocomplete="email" aria-required="true" placeholder="Adres e-mail" />
+            <span asp-validation-for="Email" id="validation-email" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Password" class="form-label">Hasło</label>
+            <input asp-for="Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Hasło" />
+            <span asp-validation-for="Password" id="validation-password" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="ConfirmPassword" class="form-label">Hasło</label>
+            <input asp-for="ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Hasło" />
+            <span asp-validation-for="ConfirmPassword" id="validation-confirm-password" class="text-danger"></span>
+        </div>
+
+        <div class="checkbox">
+            <input type="checkbox" class="form-check-input" id="statute-checkbox">
+            <label class="form-check-label" for="exampleCheck1">
+                Zapoznałem się z <a href="#">regulaminem</a> usługi
+            </label>
+            <span id="validation-statute-checkbox" class="text-danger"></span>
+            <br>
+            <small id="emailHelp" class="form-text text-muted">
+                Na podany adres e-mail, wyślemy za chwilę wiadomość aktywacyjną. Postępuj zgodnie z instrukcjami zawartymi w wiadomości.
+            </small>
+        </div>
+
+    </form>
+</div>
+<div class="modal-footer" id="Modal1Footer">
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
+    <button id="login-submit" type="submit" form="account" class="btn btn-outline-success">Zapisz</button>
+</div>
