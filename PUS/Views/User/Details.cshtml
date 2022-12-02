@@ -14,7 +14,7 @@
             <div class="col-sm-8">
                 <b>@Model.FirstName @Model.LastName</b>
                 <br />
-                @if (Model.Addresses.Count > 0)
+                @if (Model.Addresses != null && Model.Addresses.Count > 0)
                 {
                     @(Model.Addresses.First().Print) <a target="new" href=""><i class="fa-solid fa-location-dot"></i></a>
                 }
