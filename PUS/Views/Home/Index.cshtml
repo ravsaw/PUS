@@ -33,9 +33,11 @@
                     @if (SignInManager.IsSignedIn(User))
                     {
                         <div class="progress mt-1" style="height: 5px">
+
                             <div class="progress-bar bg-success" role="progressbar" style="width: @(item.User.GoodLevel)%" aria-valuenow="@(item.User.GoodLevel)" aria-valuemin="0" aria-valuemax="100"></div>
                             <div class="progress-bar bg-warning" role="progressbar" style="width: @(item.User.NeutralLevel)%" aria-valuenow="@(item.User.NeutralLevel)" aria-valuemin="0" aria-valuemax="100"></div>
                             <div class="progress-bar bg-danger" role="progressbar" style="width: @(item.User.BadLevel)%" aria-valuenow="@(item.User.BadLevel)" aria-valuemin="0" aria-valuemax="100"></div>
+
                         </div>
 
                         <div class="btn-group btn-group-sm mt-1 w-100" role="group" aria-label="menu">

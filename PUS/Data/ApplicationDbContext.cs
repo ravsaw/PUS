@@ -14,5 +14,6 @@ namespace PUS.Data
         }
 
         public DbSet<Service> Services { get; set; } = null!;
+        public DbSet<Profile> Profiles { get; set; } = null!;
     }
 }

@@ -19,7 +19,11 @@ namespace PUS.Controllers
 
         public async Task<IActionResult> IndexAsync()
         {
-            return View(await _context.Services.ToListAsync());
+
+            var services = await _context.Services
+                .Include( s => s.User )
+                .ToListAsync();
+            return View(services);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

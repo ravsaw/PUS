@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PUS.Data;
 
@@ -11,9 +12,10 @@ using PUS.Data;
 namespace PUS.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221202135107_mssql.local_migration_439")]
+    partial class mssqllocal_migration_439
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -323,12 +325,12 @@ namespace PUS.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserForeignKey")
+                    b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserForeignKey");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Services");
                 });
@@ -401,8 +403,8 @@ namespace PUS.Data.Migrations
             modelBuilder.Entity("PUS.Models.Service", b =>
                 {
                     b.HasOne("PUS.Models.Profile", "User")
-                        .WithMany("Services")
-                        .HasForeignKey("UserForeignKey");
+                        .WithMany()
+                        .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });
@@ -412,8 +414,6 @@ namespace PUS.Data.Migrations
                     b.Navigation("Addresses");
 
                     b.Navigation("Companies");
-
-                    b.Navigation("Services");
                 });
 #pragma warning restore 612, 618
         }

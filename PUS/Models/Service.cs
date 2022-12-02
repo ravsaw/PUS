@@ -11,7 +11,8 @@ namespace PUS.Models
         public string Title { get; set; } = string.Empty;
         // będziemy widzieli, które samochody przynależą do tego komentarza
         public string Description { get; set; } = string.Empty;
+
+        [ForeignKey("UserForeignKey")]
         public Profile User { get; set; }
     }
-
 }

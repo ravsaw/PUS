@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PUS.Models
 {
+    [Table("Profiles")]
     public class Profile: IdentityUser
     {
         public string FirstName { get; set; } = string.Empty;
@@ -17,7 +19,8 @@ namespace PUS.Models
 
         public int EQI { get; set; } = 0;
 
-        public ICollection<Address> Addresses { get; set; }
-        public ICollection<Company> Companies { get; set; }
+        public virtual ICollection<Address> Addresses { get; set; }
+        public virtual ICollection<Company> Companies { get; set; }
+        public virtual ICollection<Service> Services { get; set; }
     }
 }

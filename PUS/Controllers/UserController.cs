@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PUS.Data;
+using PUS.Models;
 
 namespace PUS.Controllers
 {
@@ -15,20 +16,20 @@ namespace PUS.Controllers
 
         public async Task<IActionResult> Details(string id = "")
         {
-            if (id == "" || _context.Users == null)
+            if (id == "" || _context.Profiles == null)
             {
                 return NotFound();
             }
 
-            var service = await _context.Users
+            var profiles = await _context.Profiles
                 .FirstOrDefaultAsync(m => m.Id == id);
 
-            if (service == null)
+            if (profiles == null)
             {
                 return NotFound();
             }
 
-            return PartialView("Details", service);
+            return PartialView("Details", profiles);
             //return View(service);
         }
     }
