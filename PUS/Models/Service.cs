@@ -8,10 +8,10 @@ namespace PUS.Models
     {
         [Key]  // ustawiamy klucz główny tabeli
         public int Id { get; set; }
-        public string UserId { get; set; } = string.Empty;
         public string Title { get; set; } = string.Empty;
         // będziemy widzieli, które samochody przynależą do tego komentarza
         public string Description { get; set; } = string.Empty;
+        public Profile User { get; set; }
     }
 
 }

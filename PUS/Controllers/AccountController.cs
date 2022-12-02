@@ -55,7 +55,7 @@ namespace PUS.Controllers
         [HttpPost]
         public async Task<JsonResult> Login(LoginViewModel model)
         {
-            LoginStatus status = new LoginStatus();
+            AccountRequestStatus status = new AccountRequestStatus();
 
             if (ModelState.IsValid)
             {
@@ -97,8 +97,10 @@ namespace PUS.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = "/")
+        public async Task<IActionResult> Register(RegisterViewModel model)
         {
+            string returnUrl = "/";
+            AccountRequestStatus status = new AccountRequestStatus();
 
             if (ModelState.IsValid)
             {
@@ -126,12 +128,13 @@ namespace PUS.Controllers
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
-                        return RedirectToPage("RegisterConfirmation", new { email = model.Email, returnUrl = returnUrl });
+                        _logger.LogInformation("User register and need confirm.");
+                        return Json(new { success = true });
                     }
                     else
                     {
                         await _signInManager.SignInAsync(user, isPersistent: false);
-                        return LocalRedirect(returnUrl);
+                        return Json(new { success = true });
                     }
                 }
                 foreach (var error in result.Errors)
@@ -141,7 +144,7 @@ namespace PUS.Controllers
             }
 
             // If we got this far, something failed, redisplay form
-            return LocalRedirect(returnUrl);
+            return PartialView("Register", model);
         }
 
 

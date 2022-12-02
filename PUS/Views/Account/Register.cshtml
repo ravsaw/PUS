@@ -18,12 +18,10 @@
             url: "/Account/Register",
             data: data,
             success: function (response) {
-                switch (response.status) {
-                    case 0:
-                        window.location.reload();
-                        break;
-                    default:
-                        console.log(response);
+                if (response.success) {
+                    window.location.reload();
+                } else {
+                    $("#partialModal").find(".modal-content").html(response);
                 }
             },
             failure: function (response) {
