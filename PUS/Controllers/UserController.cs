@@ -22,6 +22,7 @@ namespace PUS.Controllers
             }
 
             var profiles = await _context.Profiles
+                .Include(p => p.Addresses)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             if (profiles == null)
