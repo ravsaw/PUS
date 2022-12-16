@@ -9,11 +9,11 @@ using PUS.Data;
 
 #nullable disable
 
-namespace PUS.Data.Migrations
+namespace PUS.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221202135107_mssql.local_migration_439")]
-    partial class mssqllocal_migration_439
+    [Migration("20221207140930_mssql.local_migration_629")]
+    partial class mssqllocal_migration_629
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -321,11 +321,18 @@ namespace PUS.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
@@ -403,8 +410,10 @@ namespace PUS.Data.Migrations
             modelBuilder.Entity("PUS.Models.Service", b =>
                 {
                     b.HasOne("PUS.Models.Profile", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
+                        .WithMany("Services")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });
@@ -414,6 +423,8 @@ namespace PUS.Data.Migrations
                     b.Navigation("Addresses");
 
                     b.Navigation("Companies");
+
+                    b.Navigation("Services");
                 });
 #pragma warning restore 612, 618
         }

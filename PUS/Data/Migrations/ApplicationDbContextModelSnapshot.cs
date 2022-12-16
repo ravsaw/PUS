@@ -8,7 +8,7 @@ using PUS.Data;
 
 #nullable disable
 
-namespace PUS.Data.Migrations
+namespace PUS.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -319,16 +319,23 @@ namespace PUS.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserForeignKey")
+                    b.Property<string>("UserId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserForeignKey");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Services");
                 });
@@ -402,7 +409,9 @@ namespace PUS.Data.Migrations
                 {
                     b.HasOne("PUS.Models.Profile", "User")
                         .WithMany("Services")
-                        .HasForeignKey("UserForeignKey");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });

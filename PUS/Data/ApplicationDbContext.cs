@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using PUS.Models;
+using System.Reflection.Emit;
+using System.Reflection.Metadata;
 
 namespace PUS.Data
 {
@@ -11,9 +13,10 @@ namespace PUS.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
+
         }
 
-        public DbSet<Service> Services { get; set; } = null!;
+		public DbSet<Service> Services { get; set; } = null!;
         public DbSet<Profile> Profiles { get; set; } = null!;
     }
 }

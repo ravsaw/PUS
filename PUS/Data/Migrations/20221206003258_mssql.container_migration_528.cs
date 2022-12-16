@@ -2,9 +2,9 @@
 
 #nullable disable
 
-namespace PUS.Data.Migrations
+namespace PUS.Migrations
 {
-    public partial class mssqllocal_migration_739 : Migration
+    public partial class mssqlcontainer_migration_528 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

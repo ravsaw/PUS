@@ -1,37 +1,185 @@
-﻿@model PUS.Models.Service
+﻿@model PUS.ViewModels.ServiceCreateViewModel
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
+@functions {
+    public string GetAntiXsrfRequestToken()
+    {
+        return Xsrf.GetAndStoreTokens(Context).RequestToken;
+    }
+}
+
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/lib/jquery-quillotine/jquery.guillotine.min.js"></script>
+<script>
+    $('#service').submit(function (e) {
+        e.preventDefault();
+
+
+
+        var formData = new FormData(this);
+        var data = $('#serviceImagePreview').guillotine('getData');
+
+        console.log(data);
+        
+        formData.set("CropScale", data.scale.toFixed(8));
+        formData.set("CropY", data.y);
+        formData.set("CropX", data.x);
+
+        console.log(formData);
+
+        if ($(this).valid == false) return false;
+
+        $.ajax({
+            type: "POST",
+            url: "/Services/Create",
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            enctype: 'multipart/form-data',
+            headers:
+            {
+                "RequestVerificationToken": '@GetAntiXsrfRequestToken()'
+            },
+            success: function (response) {
+                console.log("sukces");
+                console.log(response);
+                if (response.success) {
+                    window.location.reload();
+                } else {
+                    $("#partialModal").find(".modal-content").html(response);
+                }
+            },
+            failure: function (response) {
+                console.log("fail");
+                console.log(response);
+            },
+            error: function (response) {
+                console.log("error");
+                console.log(response);
+            }
+        });
+    });
+</script>
+<script>
+    $(function () {
+        $('#ImageInput').change(function () {
+            var input = this;
+            var url = $(this).val();
+            var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
+            if (input.files && input.files[0] && (ext == "gif" || ext == "png" || ext == "jpeg" || ext == "jpg")) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#serviceImagePreview').attr('src', e.target.result);
+                    const img = new Image();
+                    img.onload = function () {
+
+                        var picture = $('#serviceImagePreview');
+                        picture.guillotine({ width: 400, height: 300 });
+
+                        $('#controls').css('display', 'block');
+                    }
+                    img.src = e.target.result;
+                }
+                reader.readAsDataURL(input.files[0]);
+
+
+            }
+            else {
+                var picture = $('#serviceImagePreview');
+                picture.guillotine('remove');
+                $('#controls').css('display', 'none');
+                picture.attr('src', '/img/addPhoto.svg');
+            }
+        });
+
+    });
+</script>
+
+<link rel="stylesheet" href="~/lib/jquery-quillotine/jquery.guillotine.css" />
+<style>
+    #controls a {
+        display: inline-block;
+        padding: 0 5%;
+        height: 50px;
+        line-height: 50px;
+        font-size: 20px;
+        font-weight: 300;
+        color: #888;
+    }
+</style>
 
 <div class="modal-header">
     <h5 class="modal-title"><i class="fa-solid fa-circle-plus"></i> Dodaj nową ofertę</h5>
     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
+
 <div class="modal-body">
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-5">
-                <img class="img-fluid mx-auto d-block" src="img/placeholder.png">
-                <div class="m-3">
-                    <input class="form-control" type="file" id="formFile">
+
+    <form id="service" method="post" action="Services/Create" enctype="multipart/form-data">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="container">
+
+            <div class="row">
+
+                <div class="col-sm-5 form-group">
+                    <div id="theparent" class="img-fluid mx-auto d-block d-flex justify-content-center">
+                        <img id="serviceImagePreview" src="~/img/addPhoto.svg">
+                    </div>
+                    <div id="controls" class="my-3" style="background-color: #1b1b1b; text-align: center; display: none;">
+                        <a href="#" onclick="$('#serviceImagePreview').guillotine('zoomOut');" title="Zoom out"><i class="fa fa-search-minus"></i></a>
+                        <a href="#" onclick="$('#serviceImagePreview').guillotine('fit');" title="Fit image"><i class="fa fa-arrows-alt"></i></a>
+                        <a href="#" onclick="$('#serviceImagePreview').guillotine('zoomIn');" title="Zoom in"><i class="fa fa-search-plus"></i></a>
+                    </div>
+                    <div class="m-3">
+                        <input asp-for=Image type="file" class="form-control" name="image" id="ImageInput">
+                    </div>
                 </div>
+
+
+                <div class="col-sm-7">
+
+                    <div class="mb-2 form-group">
+                        <label asp-for="Title" class="form-label">Krótki opis oferty:</label>
+                        <input asp-for="Title" class="form-control" autocomplete="title" aria-required="true" placeholder="Krótki opis oferty" />
+                        <span asp-validation-for="Title" id="validation-title" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-2 form-group">
+                        <label asp-for="Description" class="form-label">Szczegóły ofery:</label>
+                        <textarea asp-for="Description" class="form-control" rows="4" autocomplete="description" aria-required="true" placeholder="Szczegóły ofery"></textarea>
+                        <span asp-validation-for="Description" id="validation-description" class="text-danger"></span>
+                    </div>
+
+                    <label for="daty" class="form-label">Oferta ważna:</label>
+
+                    <div class="input-group flex-nowrap form-group" id="daty">
+                        <span class="input-group-text" id="addon-wrapping">Od</span>
+                        <input asp-for="StartDate" type="date" class="form-control " aria-label="start">
+
+                        <span class="input-group-text" id="addon-wrapping">do</span>
+                        <input asp-for="EndDate" type="date" class="form-control " aria-label="end">
+
+                    </div>
+
+                    <div class="flex-nowrap form-group">
+                        <span asp-validation-for="StartDate" id="validation-startdate" class="text-danger"></span>
+                        <span asp-validation-for="EndDate" id="validation-enddate" class="text-danger"></span>
+                    </div>
+
+                </div>
+
             </div>
-            <div class="col-sm-7">
-                <div class="mb-2">
-                    <label for="opis1" class="form-label">Krótki opis oferty:</label>
-                    <input type="text" class="form-control" id="opis1" placeholder="">
-                </div>
-                <div class="mb-2">
-                    <label for="opis2" class="form-label">Szczegóły ofery:</label>
-                    <textarea class="form-control" id="opis2" rows="4"></textarea>
-                </div>
-                <label for="daty" class="form-label">Oferta ważna:</label>
-                <div class="input-group flex-nowrap" id="daty">
-                    <span class="input-group-text" id="addon-wrapping">Od</span><input type="datetime-local" class="form-control " aria-label="praca">
-                    <span class="input-group-text" id="addon-wrapping">do</span><input type="datetime-local" class="form-control " aria-label="praca">
-                </div>
-            </div>
+
         </div>
-    </div>
+
+    </form>
+
 </div>
-<div class="modal-footer" id="Modal1Footer">
+
+<div class="modal-footer">
     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
-    <button type="button" class="btn btn-success" data-bs-dismiss="modal">Zapisz</button>
+    <button type="submit" form="service" class="btn btn-success">Zapisz</button>
 </div>

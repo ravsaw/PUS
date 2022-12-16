@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "AddImage";
 }
 
@@ -21,49 +20,43 @@
     </div>
 </div>
 
-@section Styles {
-    <style>
-        .croppie-container {
-            width: 100%;
-            height: 80%;
-        }
-    </style>
+<style>
+    .croppie-container {
+        width: 100%;
+        height: 80%;
+    }
+</style>
+<link rel="stylesheet" href="~/lib/croppie/croppie.min.css" />
 
-    <link rel="stylesheet" href="~/lib/croppie/croppie.min.css" />
-}
+<script src="~/lib/croppie/croppie.min.js"></script>
+<script type="text/javascript">
 
-@section Scripts {
-    <script src="~/lib/croppie/croppie.min.js"></script>
-    <script type="text/javascript">
-
-        //initialize Croppie
-        var basic = $("#main-cropper").croppie
-            ({
-                viewport: { width: 400, height: 300 },
-                boundary: { width: 500, height: 500 },
-                showZoomer: true,
-                url: '/img/placeholder.png',
-                format: 'jpeg' | 'png' | 'webp'
-            });
+    //initialize Croppie
+    var basic = $("#main-cropper").croppie
+        ({
+            viewport: { width: 400, height: 300 },
+            boundary: { width: 500, height: 500 },
+            showZoomer: true,
+            url: '/img/placeholder.png',
+            format: 'jpeg' | 'png' | 'webp'
+        });
 
 
-        //Reading the contents of the specified Blob or File
-        function readFile(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
+    //Reading the contents of the specified Blob or File
+    function readFile(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
 
-                reader.onload = function (e) {
-                    $('#main-cropper').croppie('bind', {
-                        url: e.target.result
-                    });
-                }
-                reader.readAsDataURL(input.files[0]);
+            reader.onload = function (e) {
+                $('#main-cropper').croppie('bind', {
+                    url: e.target.result
+                });
             }
+            reader.readAsDataURL(input.files[0]);
         }
+    }
 
-        // Change Event to Read file content from File input
-        $('#select').on('change', function () { readFile(this); });
+    // Change Event to Read file content from File input
+    $('#select').on('change', function () { readFile(this); });
 
-    </script>
-
-}
+</script>

@@ -1,22 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PUS.Data;
 using PUS.Models;
+using PUS.ViewModels;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Processing;
 
 namespace PUS.Controllers
 {
     public class ServicesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IWebHostEnvironment _appEnvironment;
 
-        public ServicesController(ApplicationDbContext context)
+        public ServicesController(ApplicationDbContext context, IWebHostEnvironment appEnvironment)
         {
             _context = context;
+            _appEnvironment = appEnvironment;
         }
 
         // GET: Services
@@ -69,15 +78,35 @@ namespace PUS.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Description")] Service service)
+        public async Task<IActionResult> Create(ServiceCreateViewModel vm)
         {
+            var service = new Service { Title = vm.Title, Description = vm.Description, StartDate = vm.StartDate, EndDate = vm.EndDate };
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = _context.Profiles.First(p => p.Id == userId);
+            service.User = user;
+
             if (ModelState.IsValid)
             {
                 _context.Add(service);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
+                if (vm.Image.Length > 0)
+                {
+                    var filePath = Path.Combine(_appEnvironment.WebRootPath, "img", service.Id.ToString() + ".jpeg");
+
+                    using var image = Image.Load(vm.Image.OpenReadStream());
+                    var cropArea = new Rectangle(
+                        (int)(vm.CropX / vm.CropScale), (int)(vm.CropY / vm.CropScale),
+                        (int)(400 / vm.CropScale), (int)(300 / vm.CropScale)
+                        );
+                    image.Mutate(x => x.Crop(cropArea));
+                    image.Mutate(x => x.Resize(400, 300));
+                    await image.SaveAsJpegAsync(filePath);
+                }
+
+                return Json(new { success = true });
             }
-            return View(service);
+            return PartialView("Create", service);
         }
 
         // GET: Services/Edit/5

@@ -9,11 +9,11 @@ using PUS.Data;
 
 #nullable disable
 
-namespace PUS.Data.Migrations
+namespace PUS.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221202142605_mssql.local_migration_851")]
-    partial class mssqllocal_migration_851
+    [Migration("20221206003003_mssql.container_migration_234")]
+    partial class mssqlcontainer_migration_234
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -320,6 +320,12 @@ namespace PUS.Data.Migrations
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Title")
                         .IsRequired()
