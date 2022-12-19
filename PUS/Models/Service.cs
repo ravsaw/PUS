@@ -15,5 +15,6 @@ namespace PUS.Models
         public DateTime EndDate { get; set; }
 
 		public Profile User { get; set; }
+        public virtual ICollection<Chat> Chats { get; set; }
     }
 }

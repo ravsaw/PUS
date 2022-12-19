@@ -1,0 +1,43 @@
+﻿@model PUS.ViewModels.ChatViewModel
+
+<div class="modal-header">
+    <h5 class="modal-title" id="ModalTitle"><i class="fa-solid fa-comments"></i> Ustalenia</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+
+<div class="modal-body">
+    <div class="container">
+        <div class="row">
+
+            <div class="alert alert-success w-100" role="alert">
+                <b>@Model.Service.Title</b>
+            </div>
+
+            @foreach (var item in Model.Chat.ChatLines)
+            {
+                var color = item.Direction == MessageDirection.From ? "bg-info" : "bg-warning";
+                var side = item.Direction == MessageDirection.From ? "text-end" : "text-start";
+                <div class=@side>
+                    <sub>@item.CreatedAt</sub>
+                    <div class="badge rounded-pill bg-info @color">
+                        <h4>@item.Text</h4>
+                    </div>
+                </div>
+            }
+
+            <div class="input-group w-100">
+                <input type="text" class="form-control" placeholder="Wiadomość" aria-label="Czat">
+                <button class="btn btn-outline-secondary" type="button">Wyślij</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+        Zamknij
+    </button>
+    <button onclick="" type="button" class="btn btn-outline-success">
+        <i class="fa-solid fa-right-left"></i>
+    </button>
+</div>

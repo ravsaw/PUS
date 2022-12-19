@@ -3,7 +3,7 @@
     public class Chat
     {
         public int Id { get; set; }
-        public virtual Service Service { get; set; }
+        public Profile User { get; set; }
         public virtual ICollection<ChatLine> ChatLines { get; set; }
     }
 }
