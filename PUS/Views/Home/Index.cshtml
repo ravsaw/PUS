@@ -26,7 +26,7 @@
         @foreach (var item in Model)
         {
             <div class="card m-2" style="width: 18rem;">
-                <img src=@($"img/{item.Id}.png") onerror="this.src='img/placeholder.png';" class="card-img-top ratio ratio-4x3" alt="...">
+                <img src=@($"img/{item.Id}.jpeg") onerror="this.src='img/placeholder.png';" class="card-img-top ratio ratio-4x3" alt="...">
 
                 <div class="card-body m-0 p-0">
 
@@ -34,15 +34,15 @@
                     {
                         <div class="progress mt-1" style="height: 5px">
 
-                            <div class="progress-bar bg-success" role="progressbar" style="width: @(item.User.GoodLevel)%" aria-valuenow="@(item.User.GoodLevel)" aria-valuemin="0" aria-valuemax="100"></div>
-                            <div class="progress-bar bg-warning" role="progressbar" style="width: @(item.User.NeutralLevel)%" aria-valuenow="@(item.User.NeutralLevel)" aria-valuemin="0" aria-valuemax="100"></div>
-                            <div class="progress-bar bg-danger" role="progressbar" style="width: @(item.User.BadLevel)%" aria-valuenow="@(item.User.BadLevel)" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar bg-success" role="progressbar" style="width: @(item.Owner.GoodLevel)%" aria-valuenow="@(item.Owner.GoodLevel)" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar bg-warning" role="progressbar" style="width: @(item.Owner.NeutralLevel)%" aria-valuenow="@(item.Owner.NeutralLevel)" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar bg-danger" role="progressbar" style="width: @(item.Owner.BadLevel)%" aria-valuenow="@(item.Owner.BadLevel)" aria-valuemin="0" aria-valuemax="100"></div>
 
                         </div>
 
                         <div class="btn-group btn-group-sm mt-1 w-100" role="group" aria-label="menu">
 
-                            <button onclick="show_modal_details('@($"/User/Details/{item.User.Id}")')" type="button" class="btn btn-outline-secondary">
+                            <button onclick="show_modal_details('@($"/User/Details/{item.Owner.Id}")')" type="button" class="btn btn-outline-secondary">
                                 <i class="fa-solid fa-user-large"></i>
                             </button>
 
@@ -54,7 +54,7 @@
                                 <i class="fa-solid fa-piggy-bank"></i> <b>46</b>
                             </button>
 
-                            <button onclick="js6Komunikator()" type="button" class="btn btn-outline-secondary">
+                            <button onclick="show_modal_details('@($"/Chat/Index?serviceID={item.Id}")')" type="button" class="btn btn-outline-secondary">
                                 <i class="fa-solid fa-comments"></i>
                             </button>
 

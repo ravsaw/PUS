@@ -18,5 +18,7 @@ namespace PUS.Data
 
 		public DbSet<Service> Services { get; set; } = null!;
         public DbSet<Profile> Profiles { get; set; } = null!;
+        public DbSet<Chat> Chates { get; set; } = null!;
+        public DbSet<ChatLine> ChatLines { get; set; } = null!;
     }
 }

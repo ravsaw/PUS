@@ -14,18 +14,12 @@
     $('#service').submit(function (e) {
         e.preventDefault();
 
-
-
         var formData = new FormData(this);
         var data = $('#serviceImagePreview').guillotine('getData');
-
-        console.log(data);
         
         formData.set("CropScale", data.scale.toFixed(8));
         formData.set("CropY", data.y);
         formData.set("CropX", data.x);
-
-        console.log(formData);
 
         if ($(this).valid == false) return false;
 

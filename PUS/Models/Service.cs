@@ -3,18 +3,17 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PUS.Models
 {
-    [Table("Services")]  // za pomocą atrybutu nadajemy nazwę naszej tabeli
+    [Table("Services")] 
     public class Service
     {
-        [Key]  // ustawiamy klucz główny tabeli
+        [Key] 
         public int Id { get; set; }
         public string Title { get; set; } = string.Empty;
-        // będziemy widzieli, które samochody przynależą do tego komentarza
         public string Description { get; set; } = string.Empty;
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
 
-		public Profile User { get; set; }
-        public virtual ICollection<Chat> Chats { get; set; }
+		public Profile Owner { get; set; }
+        public ICollection<Chat> Chats { get; set; }
     }
 }
