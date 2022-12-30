@@ -21,7 +21,7 @@ namespace PUS.Controllers
         {
 
             var services = await _context.Services
-                .Include( s => s.User )
+                .Include( s => s.Owner )
                 .ToListAsync();
             return View(services);
         }

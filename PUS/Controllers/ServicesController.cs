@@ -85,8 +85,8 @@ namespace PUS.Controllers
             var service = new Service { Title = vm.Title, Description = vm.Description, StartDate = vm.StartDate, EndDate = vm.EndDate };
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var user = _context.Profiles.First(p => p.Id == userId);
-            service.User = user;
-            
+            service.Owner = user;
+
             if (ModelState.IsValid)
             {
                 _context.Add(service);

@@ -1,4 +1,49 @@
 ﻿@model PUS.ViewModels.ChatViewModel
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
+@functions {
+    public string GetAntiXsrfRequestToken()
+    {
+        return Xsrf.GetAndStoreTokens(Context).RequestToken;
+    }
+}
+
+
+<script>
+    $('#message-form').submit(function (e) {
+        e.preventDefault();
+
+        console.log("proced");
+        var formData = new FormData(this);
+
+        console.log(formData);
+
+        $.ajax({
+            type: "POST",
+            url: "/Chat/AddMessage",
+            cache: false,
+            processData: false,
+            contentType: false,
+            data: formData,
+            headers:
+            {
+                "RequestVerificationToken": '@GetAntiXsrfRequestToken()'
+            },
+            success: function (response) {
+                $("#partialModal").find(".modal-content").html(response);
+                console.log("sukces");
+                console.log(response);
+            },
+            failure: function (response) {
+                console.log("fail");
+                console.log(response);
+            },
+            error: function (response) {
+                console.log("error");
+                console.log(response);
+            }
+        });
+    });
+</script>
 
 <div class="modal-header">
     <h5 class="modal-title" id="ModalTitle"><i class="fa-solid fa-comments"></i> Ustalenia</h5>
@@ -10,10 +55,10 @@
         <div class="row">
 
             <div class="alert alert-success w-100" role="alert">
-                <b>@Model.Service.Title</b>
+                <b>@Model.serviceTitle</b>
             </div>
-
-            @foreach (var item in Model.Chat.ChatLines)
+            <div id="chat-lines">
+            @foreach (var item in Model.chatLines)
             {
                 var color = item.Direction == MessageDirection.From ? "bg-info" : "bg-warning";
                 var side = item.Direction == MessageDirection.From ? "text-end" : "text-start";
@@ -24,11 +69,17 @@
                     </div>
                 </div>
             }
-
-            <div class="input-group w-100">
-                <input type="text" class="form-control" placeholder="Wiadomość" aria-label="Czat">
-                <button class="btn btn-outline-secondary" type="button">Wyślij</button>
             </div>
+
+            <form id="message-form">
+                <div class="input-group w-100">
+                    <input type="hidden" name="serviceID" value="@Model.serviceID"/>
+                    <input type="hidden" name="chatID" value="@Model.chatID" />
+                    <input type="hidden" name="currentUserID" value="@Model.currentUserID" />
+                    <input type="text" class="form-control" name="message" placeholder="Wiadomość" aria-label="Czat" />
+                    <button class="btn btn-outline-secondary" type="submit">Wyślij</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
