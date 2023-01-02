@@ -57,23 +57,25 @@
             <div class="alert alert-success w-100" role="alert">
                 <b>@Model.serviceTitle</b>
             </div>
-            <div id="chat-lines">
-            @foreach (var item in Model.chatLines)
-            {
-                var color = item.Direction == MessageDirection.From ? "bg-info" : "bg-warning";
-                var side = item.Direction == MessageDirection.From ? "text-end" : "text-start";
-                <div class=@side>
-                    <sub>@item.CreatedAt</sub>
-                    <div class="badge rounded-pill bg-info @color">
-                        <h4>@item.Text</h4>
+            <div id="chat-lines" class="mb-2" style="max-height: calc(60vh); max-width:inherit; overflow-y: auto; display: flex; flex-direction: column-reverse;">
+                @foreach (var item in Model.chatLines)
+                {
+                    var color = item.Direction == MessageDirection.From ? "bg-info" : "bg-warning";
+                    var side = item.Direction == MessageDirection.From ? "text-end" : "text-start";
+                    <div class=@side>
+                        <sub>@item.CreatedAt</sub>
+                        <br />
+                        <div class="badge rounded-3 bg-info @color text-wrap @side px-2 py-1">
+                            <h6>@item.Text</h6>
+                        </div>
                     </div>
-                </div>
-            }
+                }
             </div>
 
             <form id="message-form">
                 <div class="input-group w-100">
-                    <input type="hidden" name="serviceID" value="@Model.serviceID"/>
+                    <input type="hidden" name="serviceID" value="@Model.serviceID" />
+                    <input type="hidden" name="serviceTitle" value="@Model.serviceTitle" />
                     <input type="hidden" name="chatID" value="@Model.chatID" />
                     <input type="hidden" name="currentUserID" value="@Model.currentUserID" />
                     <input type="text" class="form-control" name="message" placeholder="Wiadomość" aria-label="Czat" />
