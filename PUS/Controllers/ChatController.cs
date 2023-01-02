@@ -63,6 +63,7 @@ namespace PUS.Controllers
             vm.serviceTitle = service.Title;
             vm.chatID = chat.Id;
             vm.chatLines = chat.ChatLines.ToList();
+            vm.chatLines.Reverse();
 
             if (chat.Client != currentUser && service.Owner != currentUser)
             {
@@ -108,7 +109,9 @@ namespace PUS.Controllers
             chat.ChatLines.Add(chatLine);
             _context.Update(chat);
             await _context.SaveChangesAsync();
+
             vm.chatLines = chat.ChatLines.ToList();
+            vm.chatLines.Reverse();
 
             return PartialView("Index", vm);
         }

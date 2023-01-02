@@ -19,8 +19,10 @@ namespace PUS.Controllers
 
         public async Task<IActionResult> IndexAsync()
         {
-
+            var dateNow = DateTime.Now;
             var services = await _context.Services
+                .Where( s => s.StartDate < dateNow)
+                .Where( s => s.EndDate > dateNow)
                 .Include( s => s.Owner )
                 .ToListAsync();
             return View(services);
