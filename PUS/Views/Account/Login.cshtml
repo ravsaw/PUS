@@ -70,11 +70,11 @@
 
         <div class="form-check">
             <small id="emailHelp" class="form-text text-muted">
-                <a asp-area="" asp-controller="Account" asp-action="ForgotPassword">Nie pamiętasz hasła?</a>
+                <a href="#" onclick="show_modal_details('@($"/Account/ForgotPassword")')">Nie pamiętasz hasła?</a>
             </small>
             <br>
             <small id="emailHelp" class="form-text text-muted">
-                <a asp-area="" asp-controller="Account" asp-action="Register">Załóż konto na platformie.</a>
+                <a href="#" onclick="show_modal_details('@($"/Account/Register")')">Załóż konto na platformie.</a>
             </small>
         </div>
 

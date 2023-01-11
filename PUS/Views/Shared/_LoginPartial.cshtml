@@ -34,20 +34,20 @@
 
             <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
                 <li>
-                    <a class="dropdown-item" href="javascript:js6UstaleniaZbiorcze()">
+                    <a class="dropdown-item">
                         Ustalenia <sup><span class=" badge rounded-pill bg-danger">2</span></sup>
                     </a>
                 </li>
                 <li>
-                    <a class="dropdown-item" href="javascript:js6TransakcjeAktywne()">
+                    <a class="dropdown-item">
                         Transakcje aktywne <sup><span class=" badge rounded-pill bg-danger">2</span></sup>
                     </a>
                 </li>
                 <li>
-                    <a class="dropdown-item" href="javascript:js6kalendarzSchow()">Kalendarz</a>
+                    <a class="dropdown-item">Kalendarz</a>
                 </li>
                 <li>
-                    <a class="dropdown-item" href="javascript:js6TransakcjeArchiwum()">Archiwum transakcji</a>
+                    <a class="dropdown-item">Archiwum transakcji</a>
                 </li>
 
             </ul>
@@ -59,12 +59,12 @@
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarNavDarkDropdown">
                 <li>
-                    <a class="dropdown-item" href="javascript:js6Profil()">
+                    <a class="dropdown-item">
                         Mój profil
                     </a>
                 </li>
                 <li>
-                    <a class="dropdown-item" href="javascript:js6zmianaHasla()">
+                    <a class="dropdown-item">
                         Zmiana hasła
                     </a>
                 </li>
@@ -84,7 +84,7 @@
     {
 
         <li class="nav-item">
-            <a class="nav-link" asp-area="Identity" asp-page="/Account/Login">
+            <a class="nav-link" href="#" onclick="show_modal_details('@($"/Account/Login")')">
                 <i class="fa-solid fa-arrow-right-to-bracket"></i> Login
             </a>
         </li>
