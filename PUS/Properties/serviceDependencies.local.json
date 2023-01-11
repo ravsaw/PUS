@@ -9,7 +9,8 @@
     "mssql1": {
       "secretStore": "LocalSecretsFile",
       "type": "mssql.local",
-      "connectionId": "ConnectionStrings:devdb"
+      "connectionId": "ConnectionStrings:devdb",
+      "dynamicId": null
     }
   }
 }

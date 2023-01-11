@@ -11,11 +11,7 @@ using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-#if DEBUG
 string connectionString = builder.Configuration.GetConnectionString("devdb");
-#else
-string connectionString = builder.Configuration.GetConnectionString("defaultdb");
-#endif
 
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();

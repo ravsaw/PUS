@@ -12,7 +12,7 @@ namespace PUS.Models
         // będziemy widzieli, które samochody przynależą do tego komentarza
         public string Description { get; set; } = string.Empty;
         public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+        public DateTime? EndDate { get; set; }
 
 		public Profile User { get; set; }
         public virtual ICollection<Chat> Chats { get; set; }

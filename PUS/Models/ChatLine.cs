@@ -1,4 +1,6 @@
-﻿namespace PUS.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace PUS.Models
 {
     public enum MessageDirection
     {
@@ -8,6 +10,7 @@
 
     public class ChatLine
     {
+        [Key]
         public int Id { get; set; }
         public string Text { get; set; }
         public DateTime CreatedAt { get; set; }
