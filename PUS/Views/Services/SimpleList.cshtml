@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<PUS.Models.Service>
 
 <div class="modal-header">
-    <h5 class="modal-title" id="Modal1Title"><i class="fa-solid fa-bars-progress"></i> @ViewBag.Title </h5>
+    <h5 class="modal-title"><i class="fa-solid fa-bars-progress"></i> @ViewBag.Title </h5>
     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
 <div class="modal-body" id="Modal1Body">
@@ -20,11 +20,16 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @{
+                            int i = 1;
+                        }
+                        @foreach(var item in Model) 
+                        {
                         <tr>
-                            <td>1.</td>
-                            <td>2021.09.12</td>
-                            <td>2021.09.20</td>
-                            <td>Drobne naprawy krawieckie</td>
+                            <td>@i++.</td>
+                            <td>@item.StartDate</td>
+                            <td>@item.EndDate</td>
+                            <td>@item.Title</td>
                             <td>3/2</td>
                             <td class="text-success">
                                 <div class="btn-group btn-group-sm mt-1" role="group" aria-label="menu">
@@ -40,12 +45,13 @@
                                 </div>
                             </td>
                         </tr>
+                        }
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
 </div>
-<div class="modal-footer" id="Modal1Footer">
+<div class="modal-footer">
     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
 </div>
