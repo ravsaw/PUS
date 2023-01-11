@@ -24,7 +24,7 @@
         console.log("data");
         console.log(data);
         
-        formData.set("CropScale", data.scale.toFixed(8));
+        formData.set("CropScale", data.scale.toFixed(8).replace(".", ","));
         formData.set("CropY", data.y);
         formData.set("CropX", data.x);
         

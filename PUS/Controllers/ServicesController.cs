@@ -86,7 +86,7 @@ namespace PUS.Controllers
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var user = _context.Profiles.First(p => p.Id == userId);
             service.User = user;
-
+            
             if (ModelState.IsValid)
             {
                 _context.Add(service);
@@ -108,7 +108,7 @@ namespace PUS.Controllers
 
                 return Json(new { success = true });
             }
-            return PartialView("Create", service);
+            return PartialView("Create", vm);
         }
 
         // GET: Services/Edit/5

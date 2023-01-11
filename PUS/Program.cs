@@ -24,7 +24,6 @@ var app = builder.Build();
 
 var cultures = new[]
 {
-     new CultureInfo("en-US"),
      new CultureInfo("pl-PL"),
 };
 
