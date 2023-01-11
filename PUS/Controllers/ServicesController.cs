@@ -34,10 +34,37 @@ namespace PUS.Controllers
             return View(await _context.Services.ToListAsync());
         }
 
-        public async Task<IActionResult> SimpleList()
+        public async Task<IActionResult> ActiveList()
         {
             ViewBag.Title = "Aktywne oferty";
-            return PartialView("SimpleList", await _context.Services.ToListAsync());
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = _context.Profiles.First(p => p.Id == userId);
+
+            var services = await _context
+                .Services
+                .Include(s => s.Owner)
+                .Where(s => s.Owner == user)
+                .Where(s => s.EndDate > DateTime.Now)
+                .ToListAsync();
+
+            return PartialView("SimpleList", services);
+        }
+        public async Task<IActionResult> ArchiveList()
+        {
+            ViewBag.Title = "Archiwum Twoich ofert";
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = _context.Profiles.First(p => p.Id == userId);
+
+            var services = await _context
+                .Services
+                .Include(s => s.Owner)
+                .Where(s => s.Owner == user)
+                .Where(s => s.EndDate < DateTime.Now)
+                .ToListAsync();
+
+            return PartialView("SimpleList", services);
         }
 
         // GET: Services/AddImage
