@@ -1,0 +1,28 @@
+﻿@model Service
+
+<div class="modal-header">
+    <h5 class="modal-title"><i class="fa-solid fa-right-left"></i> Zamówienie</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+<div class="modal-body" id="Modal1Body">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4">
+                <img class="img-fluid" src=@($"img/{Model.Id}.jpeg") onerror="this.src='img/placeholder.png';">
+            </div>
+            <div class="col-sm-8">
+                <b>Pyszny miód z własnej pasieki.</b>.
+                <br>
+                Propozycja wymiany, oferent:<input type="text" class="form-control m-1" aria-label="praca" placeholder="Oferta">
+                Ofertobiorca:<input type="text" class="form-control m-1" aria-label="praca" placeholder="W zamian za ofertę">
+                Data wymiany:<input type="datetime-local" class="form-control m-1" aria-label="praca">
+                Wartość EQI:<input type="number" class="form-control m-1" aria-label="praca" placeholder="0">
+                Uwagi:<input type="text" class="form-control m-1" aria-label="praca" placeholder="Uwagi dotyczące wymiany.">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
+    <button onclick="" type="button" class="btn btn-outline-success">Zamów</button>
+</div>

@@ -97,7 +97,9 @@ namespace PUS.Controllers
         // GET: Services/Create
         public IActionResult Create()
         {
-            return PartialView("Create");
+            var vm = new ServiceCreateViewModel();
+            vm.Title= "Title";
+            return PartialView("Create", vm);
         }
 
         // POST: Services/Create
@@ -133,7 +135,7 @@ namespace PUS.Controllers
 
                 return Json(new { success = true });
             }
-            return PartialView("Create", service);
+            return PartialView("Create", vm);
         }
 
         // GET: Services/Edit/5

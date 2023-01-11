@@ -16,7 +16,7 @@
                 <br />
                 @if (Model.Addresses != null && Model.Addresses.Count > 0)
                 {
-                    @(Model.Addresses.First().Print) <a target="new" href=""><i class="fa-solid fa-location-dot"></i></a>
+                    @(Model.Addresses.First().FullAdress) <a target="new" href=""><i class="fa-solid fa-location-dot"></i></a>
                 }
                 else
                 {
