@@ -26,11 +26,11 @@
                         @foreach(var item in Model) 
                         {
                         <tr>
-                            <td>@i++.</td>
-                            <td>@item.StartDate</td>
+                            <td>@i.</td>
+                            <td>@item.StartDate.Date</td>
                             <td>@item.EndDate</td>
                             <td>@item.Title</td>
-                            <td>3/2</td>
+                            <td></td>
                             <td class="text-success">
                                 <div class="btn-group btn-group-sm mt-1" role="group" aria-label="menu">
                                     <button onclick="" type="button" class="btn btn-outline-primary">
@@ -45,6 +45,7 @@
                                 </div>
                             </td>
                         </tr>
+                        i++;
                         }
                     </tbody>
                 </table>

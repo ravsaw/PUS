@@ -12,12 +12,12 @@ using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-string connectionString = builder.Configuration.GetConnectionString("mariadb");
-var serverVersion = new MariaDbServerVersion(new Version(10, 10, 2));
+//string connectionString = builder.Configuration.GetConnectionString("mariadb");
+//var serverVersion = new MariaDbServerVersion(new Version(10, 10, 2));
+//builder.Services.AddDbContextPool<ApplicationDbContext>(options => options.UseMySql(connectionString, serverVersion));
 
-builder.Services.AddDbContextPool<ApplicationDbContext>(options => options.UseMySql(connectionString, serverVersion));
-//string connectionString = builder.Configuration.GetConnectionString("devdb");
-//builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
+string connectionString = builder.Configuration.GetConnectionString("devdb");
+builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 

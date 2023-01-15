@@ -45,7 +45,7 @@ namespace PUS.Controllers
                 .Services
                 .Include(s => s.Owner)
                 .Where(s => s.Owner == user)
-                .Where(s => s.EndDate > DateTime.Now)
+                .Where(s => s.EndDate > DateTime.Now || s.EndDate == null)
                 .ToListAsync();
 
             return PartialView("SimpleList", services);

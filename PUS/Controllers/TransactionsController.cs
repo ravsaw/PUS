@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PUS.Data;
+using PUS.ViewModels;
 
 namespace PUS.Controllers
 {
@@ -21,23 +22,34 @@ namespace PUS.Controllers
         }
 
 
-
-        public async Task<IActionResult> Create(int? serviceId)
+        public async Task<IActionResult> Create(int? serviceID)
         {
-            if (serviceId == null || _context.Services == null)
+            if (serviceID == null || _context.Services == null)
             {
                 return NotFound();
             }
 
             var service = await _context.Services
-                .FirstOrDefaultAsync(m => m.Id == serviceId);
+                .FirstOrDefaultAsync(m => m.Id == serviceID);
 
             if (service == null)
             {
                 return NotFound();
             }
 
-            return PartialView("Create", service);
+            var vm = new TransactionCreateViewModel() { ServiceId = service.Id, ServiceTitle = service.Title };
+
+            return PartialView("Create", vm);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(TransactionCreateViewModel vm)
+        {
+
+
+
+
+            return Ok();
         }
     }
 }
