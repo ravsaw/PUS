@@ -10,6 +10,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\img\NewFolder\**" />
+    <Content Remove="wwwroot\img\NewFolder\**" />
+    <EmbeddedResource Remove="wwwroot\img\NewFolder\**" />
+    <None Remove="wwwroot\img\NewFolder\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Aspose.Imaging" Version="22.12.0" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.10" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.10" />
@@ -21,10 +28,6 @@
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="6.0.2" />
     <PackageReference Include="SixLabors.ImageSharp" Version="2.1.3" />
     <PackageReference Include="SixLabors.ImageSharp.Web" Version="2.0.2" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="wwwroot\img\NewFolder\" />
   </ItemGroup>
 
 </Project>
