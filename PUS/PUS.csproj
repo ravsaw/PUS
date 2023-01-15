@@ -10,13 +10,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="wwwroot\img\NewFolder\**" />
-    <Content Remove="wwwroot\img\NewFolder\**" />
-    <EmbeddedResource Remove="wwwroot\img\NewFolder\**" />
-    <None Remove="wwwroot\img\NewFolder\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Aspose.Imaging" Version="22.12.0" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.10" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.10" />
@@ -32,6 +25,8 @@
 
   <ItemGroup>
     <Folder Include="Migrations\" />
+    <Folder Include="wwwroot\img\services\" />
+    <Folder Include="wwwroot\img\users\" />
   </ItemGroup>
 
 </Project>
