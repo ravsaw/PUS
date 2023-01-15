@@ -122,7 +122,7 @@ namespace PUS.Controllers
 
                 if (vm.Image.Length > 0)
                 {
-                    var filePath = Path.Combine(_appEnvironment.WebRootPath, "img", service.Id.ToString() + ".jpeg");
+                    var filePath = Path.Combine(_appEnvironment.WebRootPath, "img", "services", service.Id.ToString() + ".jpeg");
 
                     using var image = Image.Load(vm.Image.OpenReadStream());
                     var cropArea = new Rectangle(

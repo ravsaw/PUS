@@ -12,8 +12,8 @@ using PUS.Data;
 namespace PUS.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230111184920_mssql.local_migration_989")]
-    partial class mssqllocal_migration_989
+    [Migration("20230115192507_mssql.local_migration_248")]
+    partial class mssqllocal_migration_248
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

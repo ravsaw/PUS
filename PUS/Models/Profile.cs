@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PUS.Models
@@ -8,7 +9,7 @@ namespace PUS.Models
     {
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
-        public DateTime BirthDate { get; set; }
+        public DateOnly BirthDate { get; set; }
         public int GoodLevel { get; set; } = 0;
         public int BadLevel { get; set; } = 0;
         public int NeutralLevel { get
@@ -19,8 +20,8 @@ namespace PUS.Models
 
         public int EQI { get; set; } = 0;
 
-        public virtual ICollection<Address> Addresses { get; set; }
-        public virtual ICollection<Company> Companies { get; set; }
-        public virtual ICollection<Service> Services { get; set; }
+        public virtual ICollection<Address> Addresses { get; set; } = new List<Address>();
+        public virtual ICollection<Company> Companies { get; set; } = new List<Company>();
+        public virtual ICollection<Service> Services { get; set; } = new List<Service>();
     }
 }

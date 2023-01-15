@@ -18,6 +18,8 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.WebUtilities;
 using System.Text.Encodings.Web;
 using System.Text;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Processing;
 
 namespace PUS.Controllers
 {
@@ -29,13 +31,15 @@ namespace PUS.Controllers
         private readonly IUserEmailStore<Profile> _emailStore;
         private readonly ILogger<RegisterViewModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly IWebHostEnvironment _appEnvironment;
 
         public AccountController(
             SignInManager<Profile> signInManager,
             UserManager<Profile> userManager,
             IUserStore<Profile> userStore,
             ILogger<RegisterViewModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IWebHostEnvironment appEnvironment)
         {
             _signInManager = signInManager;
             _userManager = userManager;
@@ -43,6 +47,7 @@ namespace PUS.Controllers
             _emailStore = GetEmailStore();
             _logger = logger;
             _emailSender = emailSender;
+            _appEnvironment = appEnvironment;
         }
 
         [HttpGet]
@@ -91,14 +96,14 @@ namespace PUS.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Register()
+        public IActionResult Register()
         {
-            return PartialView();
+            return PartialView("Register", new RegisterViewModel());
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> Register(RegisterViewModel model)
+        public async Task<IActionResult> Register(RegisterViewModel vm)
         {
             string returnUrl = "/";
             AccountRequestStatus status = new AccountRequestStatus();
@@ -106,10 +111,23 @@ namespace PUS.Controllers
             if (ModelState.IsValid)
             {
                 var user = CreateUser();
+                user.FirstName = vm.FirstName;
+                user.LastName = vm.LastName;
+                user.PhoneNumber = vm.PhoneNumber;
+                user.BirthDate = vm.BirthDate;
 
-                await _userStore.SetUserNameAsync(user, model.Email, CancellationToken.None);
-                await _emailStore.SetEmailAsync(user, model.Email, CancellationToken.None);
-                var result = await _userManager.CreateAsync(user, model.Password);
+                var address = new Address() { 
+                    Address1 = vm.Address1, 
+                    Address2 = vm.Address2, 
+                    PostCode = vm.PostCode, 
+                    City = vm.City 
+                };
+
+                user.Addresses.Add(address);
+
+                await _userStore.SetUserNameAsync(user, vm.Email, CancellationToken.None);
+                await _emailStore.SetEmailAsync(user, vm.Email, CancellationToken.None);
+                var result = await _userManager.CreateAsync(user, vm.Password);
 
                 if (result.Succeeded)
                 {
@@ -121,11 +139,25 @@ namespace PUS.Controllers
                     var callbackUrl = Url.Page(
                         "/Account/ConfirmEmail",
                         pageHandler: null,
-                        values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
+                        values: new { area = "Identity", userId, code, returnUrl },
                         protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(model.Email, "Confirm your email",
+                    await _emailSender.SendEmailAsync(vm.Email, "Confirm your email",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
+                    if (vm.ProfileImage.Length > 0)
+                    {
+                        var filePath = Path.Combine(_appEnvironment.WebRootPath, "img", "users", userId + ".jpeg");
+
+                        using var image = Image.Load(vm.ProfileImage.OpenReadStream());
+                        var cropArea = new Rectangle(
+                            (int)(vm.CropX / vm.CropScale), (int)(vm.CropY / vm.CropScale),
+                            (int)(500 / vm.CropScale), (int)(500 / vm.CropScale)
+                            );
+                        image.Mutate(x => x.Crop(cropArea));
+                        image.Mutate(x => x.Resize(500, 500));
+                        await image.SaveAsJpegAsync(filePath);
+                    }
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
@@ -145,7 +177,7 @@ namespace PUS.Controllers
             }
 
             // If we got this far, something failed, redisplay form
-            return PartialView("Register", model);
+            return PartialView("Register", vm);
         }
 
 

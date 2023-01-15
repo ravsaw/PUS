@@ -1,22 +1,51 @@
 ﻿@model PUS.ViewModels.RegisterViewModel
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
+@functions {
+    public string GetAntiXsrfRequestToken()
+    {
+        return Xsrf.GetAndStoreTokens(Context).RequestToken;
+    }
+}
 
 <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
 <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
 <script>
     $('#account').submit(function (e) {
-        $("#validation-statute-checkbox")[0].innerHTML = '';
         e.preventDefault();
-        if (!$(this).valid) return false;
+
+        $("#validation-statute-checkbox")[0].innerHTML = '';
         if (!$("#statute-checkbox")[0].checked) {
             $("#validation-statute-checkbox")[0]
                 .innerHTML = '<br><span id="statute-checkbox-error" class="" > Należy zaakceptować regulamin, aby utworzyć konto.';
             return false;
         }
-        var data = $("#account").serialize();
+
+        var formData = new FormData(this);
+
+        if ($('#ProfileImage')[0].files.length === 1) {
+
+            var data = $('#serviceImagePreview').guillotine('getData');
+
+            formData.set("CropScale", data.scale.toFixed(8).replace(".", ","));
+            formData.set("CropY", data.y);
+            formData.set("CropX", data.x);
+        }
+
+        if (!$(this).valid) return false;
+
         $.ajax({
             type: "POST",
             url: "/Account/Register",
-            data: data,
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            enctype: 'multipart/form-data',
+            headers:
+            {
+                "RequestVerificationToken": '@GetAntiXsrfRequestToken()'
+            },
             success: function (response) {
                 if (response.success) {
                     window.location.reload();
@@ -84,6 +113,7 @@
 
 <script src="~/lib/jquery-quillotine/jquery.guillotine.min.js"></script>
 <script>
+
     $(function () {
         $('#ProfileImage').change(function () {
 
@@ -104,7 +134,7 @@
                     img.onload = function () {
 
                         var picture = $('#serviceImagePreview');
-                        picture.guillotine({ width: 400, height: 300 });
+                        picture.guillotine({ width: 500, height: 500 });
 
                         $('#controls').css('display', 'block');
                     }
@@ -168,20 +198,20 @@
         <div id="essential">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-            <div class="form-group">
+            <div class="mb-2">
                 <label asp-for="Email" class="form-label">Twój adres e-mail</label>
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
 
-            <div class="form-group">
+            <div class="mb-2">
                 <label asp-for="Password" class="form-label">Hasło</label>
                 <input asp-for="Password" class="form-control" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
 
-            <div class="form-group">
-                <label asp-for="ConfirmPassword" class="form-label">Hasło</label>
+            <div class="mb-2">
+                <label asp-for="ConfirmPassword" class="form-label">Potwierdź Hasło</label>
                 <input asp-for="ConfirmPassword" class="form-control" autocomplete="off" />
                 <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
             </div>
@@ -208,9 +238,9 @@
             <div class="row p-1">
                 <div class="col-sm-4 mt-1">
 
-                    <div class="form-group">
+                    <div class="mb-2">
                         <div id="theparent" class="img-fluid mx-auto d-block d-flex justify-content-center">
-                            <img id="serviceImagePreview" src="~/img/addPhoto.svg">
+                            <img id="serviceImagePreview" src="~/img/placeholders/addPhoto.svg">
                         </div>
 
                         <div id="controls" class="my-3" style="background-color: #1b1b1b; text-align: center; display: none;">
@@ -223,29 +253,30 @@
                                 Wybierz zdjęcie<input asp-for="ProfileImage" type="file" accept="image/png, image/jpg, image/jpeg" class="form-control">
                             </span>
                         </div>
+                        <span asp-validation-for="ProfileImage" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="col-sm-8 mt-1">
 
-                    <div class="form-group">
+                    <div class="mb-2">
                         <label asp-for="FirstName" class="form-label">Imię:</label>
                         <input asp-for="FirstName" class="form-control" />
                         <span asp-validation-for="FirstName" class="text-danger"></span>
                     </div>
 
-                    <div class="form-group">
+                    <div class="mb-2">
                         <label asp-for="LastName" class="form-label">Nazwisko:</label>
                         <input asp-for="LastName" class="form-control" />
                         <span asp-validation-for="LastName" class="text-danger"></span>
                     </div>
 
-                    <div class="form-group">
+                    <div class="mb-2">
                         <label asp-for="BirthDate" class="form-label">Data urodzenia:</label>
-                        <input asp-for="BirthDate" class="form-control" value=""/>
+                        <input asp-for="BirthDate" class="form-control" value="" />
                         <span asp-validation-for="BirthDate" class="text-danger"></span>
                     </div>
 
-                    <div class="form-group">
+                    <div class="mb-2">
                         <label asp-for="PhoneNumber" class="form-label">Numer Telefonu:</label>
                         <input asp-for="PhoneNumber" class="form-control" />
                         <span asp-validation-for="PhoneNumber" class="text-danger"></span>
@@ -258,25 +289,25 @@
 
         <div id="address" style="display: none;">
 
-            <div class="form-group">
+            <div class="mb-2">
                 <label asp-for="Address1" class="form-label">Ulica:</label>
                 <input asp-for="Address1" class="form-control" />
                 <span asp-validation-for="Address1" class="text-danger"></span>
             </div>
 
-            <div class="form-group">
+            <div class="mb-2">
                 <label asp-for="Address2" class="form-label">Numer domu/ mieszkanie:</label>
                 <input asp-for="Address2" class="form-control" />
                 <span asp-validation-for="Address2" class="text-danger"></span>
             </div>
 
-            <div class="form-group">
+            <div class="mb-2">
                 <label asp-for="PostCode" class="form-label">Kod pocztowy:</label>
                 <input asp-for="PostCode" class="form-control" />
                 <span asp-validation-for="PostCode" class="text-danger"></span>
             </div>
 
-            <div class="form-group">
+            <div class="mb-2">
                 <label asp-for="City" class="form-label">Poczta:</label>
                 <input asp-for="City" class="form-control" />
                 <span asp-validation-for="City" class="text-danger"></span>

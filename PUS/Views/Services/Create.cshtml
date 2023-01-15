@@ -66,7 +66,7 @@
             var picture = $('#serviceImagePreview');
             picture.guillotine('remove');
             $('#controls').css('display', 'none');
-            picture.attr('src', '/img/placeholders/addPhoto.svg');
+            picture.attr('src', 'img/placeholders/addPhoto.svg');
 
             var input = this;
             var url = $(this).val();
@@ -124,7 +124,7 @@
 
                 <div class="col-sm-5 form-group">
                     <div id="theparent" class="img-fluid mx-auto d-block d-flex justify-content-center">
-                        <img id="serviceImagePreview" src="~/img/addPhoto.svg">
+                        <img id="serviceImagePreview" src="~/img/placeholders/addPhoto.svg">
                     </div>
                     <div id="controls" class="my-3" style="background-color: #1b1b1b; text-align: center; display: none;">
                         <a href="#" onclick="$('#serviceImagePreview').guillotine('zoomOut');" title="Zoom out"><i class="fa fa-search-minus"></i></a>

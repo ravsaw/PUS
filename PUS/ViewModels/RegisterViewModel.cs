@@ -60,11 +60,14 @@ namespace PUS.ViewModels
         [Required(ErrorMessage = "Pole jest wymagane.")]
         [StringLength(6, ErrorMessage = "{0} powinno posiadać co najmniej {2} i maksymalnie {1} znaków.", MinimumLength = 1)]
         [Display(Name = "Kod pocztowy")]
-        [RegularExpression(@"^\d{2}-\d{3}$")]
+        [RegularExpression(@"^\d{2}-\d{3}$", ErrorMessage = "{0} musi mieć postać 12-345")]
         public string PostCode { get; set; }
 
         [Required(ErrorMessage = "Zdjęcie jest wymagane.")]
         [DataType(DataType.Upload)]
         public IFormFile ProfileImage { get; set; }
+        public double CropScale { get; set; }
+        public int CropX { get; set; }
+        public int CropY { get; set; }
     }
 }
