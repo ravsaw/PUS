@@ -364,5 +364,13 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
-/PUS/wwwroot/img
+
+!/PUS/wwwroot/img/placeholders/*
+
+!/PUS/wwwroot/img/services/dummy.txt
+/PUS/wwwroot/img/services/*
+
+!/PUS/wwwroot/img/profiles/dummy.txt
+/PUS/wwwroot/img/profiles/*
+
 .gitignore.bak
