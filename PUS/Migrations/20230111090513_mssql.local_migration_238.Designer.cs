@@ -12,8 +12,8 @@ using PUS.Data;
 namespace PUS.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230111090513_mssql.local_migration_238")]
-    partial class mssqllocal_migration_238
+    [Migration("20230111184920_mssql.local_migration_989")]
+    partial class mssqllocal_migration_989
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -202,20 +202,19 @@ namespace PUS.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<string>("ClientId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<int?>("ServiceId")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
 
                     b.HasIndex("ServiceId");
 
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Chat");
+                    b.ToTable("Chates");
                 });
 
             modelBuilder.Entity("PUS.Models.ChatLine", b =>
@@ -243,7 +242,7 @@ namespace PUS.Migrations
 
                     b.HasIndex("ChatId");
 
-                    b.ToTable("ChatLine");
+                    b.ToTable("ChatLines");
                 });
 
             modelBuilder.Entity("PUS.Models.Company", b =>
@@ -373,8 +372,12 @@ namespace PUS.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("EndDate")
+                    b.Property<DateTime?>("EndDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("OwnerId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
@@ -383,13 +386,9 @@ namespace PUS.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("OwnerId");
 
                     b.ToTable("Services");
                 });
@@ -454,17 +453,15 @@ namespace PUS.Migrations
 
             modelBuilder.Entity("PUS.Models.Chat", b =>
                 {
+                    b.HasOne("PUS.Models.Profile", "Client")
+                        .WithMany()
+                        .HasForeignKey("ClientId");
+
                     b.HasOne("PUS.Models.Service", null)
                         .WithMany("Chats")
                         .HasForeignKey("ServiceId");
 
-                    b.HasOne("PUS.Models.Profile", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
+                    b.Navigation("Client");
                 });
 
             modelBuilder.Entity("PUS.Models.ChatLine", b =>
@@ -483,13 +480,13 @@ namespace PUS.Migrations
 
             modelBuilder.Entity("PUS.Models.Service", b =>
                 {
-                    b.HasOne("PUS.Models.Profile", "User")
+                    b.HasOne("PUS.Models.Profile", "Owner")
                         .WithMany("Services")
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("OwnerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("User");
+                    b.Navigation("Owner");
                 });
 
             modelBuilder.Entity("PUS.Models.Chat", b =>

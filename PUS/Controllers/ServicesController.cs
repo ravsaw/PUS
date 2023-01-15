@@ -50,6 +50,7 @@ namespace PUS.Controllers
 
             return PartialView("SimpleList", services);
         }
+
         public async Task<IActionResult> ArchiveList()
         {
             ViewBag.Title = "Archiwum Twoich ofert";
