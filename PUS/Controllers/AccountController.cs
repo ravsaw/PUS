@@ -96,6 +96,7 @@ namespace PUS.Controllers
             return PartialView();
         }
 
+
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {

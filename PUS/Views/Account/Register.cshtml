@@ -33,6 +33,127 @@
         });
     });
 </script>
+<script>
+    function clickF(i) {
+
+        if (i == 0) {
+            $('#essential').show();
+            $('#next1').show();
+
+            $('#profile').hide();
+            $('#back1').hide();
+            $('#next2').hide();
+
+            $('#address').hide();
+            $('#back2').hide();
+            $('#login-submit').hide();
+        } else if (i == 1) {
+
+            $("#validation-statute-checkbox")[0].innerHTML = '';
+
+            if (!$("#statute-checkbox")[0].checked) {
+                $("#validation-statute-checkbox")[0]
+                    .innerHTML = '<br><span id="statute-checkbox-error" class="" > Należy zaakceptować regulamin, aby utworzyć konto.';
+                return;
+            }
+
+            $('#essential').hide();
+            $('#next1').hide();
+
+            $('#profile').show();
+            $('#back1').show();
+            $('#next2').show();
+
+            $('#address').hide();
+            $('#back2').hide();
+            $('#login-submit').hide();
+        } else if (i == 2) {
+            $('#essential').hide();
+            $('#next1').hide();
+
+            $('#profile').hide();
+            $('#back1').hide();
+            $('#next2').hide();
+
+            $('#address').show();
+            $('#back2').show();
+            $('#login-submit').show();
+        }
+    }
+</script>
+
+<script src="~/lib/jquery-quillotine/jquery.guillotine.min.js"></script>
+<script>
+    $(function () {
+        $('#ProfileImage').change(function () {
+
+            var picture = $('#serviceImagePreview');
+            picture.guillotine('remove');
+            $('#controls').css('display', 'none');
+            picture.attr('src', '/img/addPhoto.svg');
+
+            var input = this;
+            var url = $(this).val();
+            var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
+            if (input.files && input.files[0] && (ext == "gif" || ext == "png" || ext == "jpeg" || ext == "jpg")) {
+
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#serviceImagePreview').attr('src', e.target.result);
+                    const img = new Image();
+                    img.onload = function () {
+
+                        var picture = $('#serviceImagePreview');
+                        picture.guillotine({ width: 400, height: 300 });
+
+                        $('#controls').css('display', 'block');
+                    }
+                    img.src = e.target.result;
+                }
+                reader.readAsDataURL(input.files[0]);
+
+
+            }
+        });
+
+    });
+</script>
+
+
+<link rel="stylesheet" href="~/lib/jquery-quillotine/jquery.guillotine.css" />
+<style>
+    #controls a {
+        display: inline-block;
+        padding: 0 5%;
+        height: 50px;
+        line-height: 50px;
+        font-size: 20px;
+        font-weight: 300;
+        color: #888;
+    }
+
+    .btn-file {
+        position: relative;
+        overflow: hidden;
+        align-self: center;
+    }
+
+        .btn-file input[type=file] {
+            position: absolute;
+            top: 0;
+            right: 0;
+            min-width: 100%;
+            min-height: 100%;
+            font-size: 100px;
+            text-align: right;
+            opacity: 0;
+            outline: none;
+            background: white;
+            cursor: inherit;
+            display: block;
+        }
+</style>
+
 
 <div class="modal-header">
     <h5 class="modal-title"> <i class="fa-solid fa-arrow-right-to-bracket"></i> Nowy użytkownik</h5>
@@ -40,42 +161,138 @@
 </div>
 
 <div class="modal-body">
-    <form id="account" method="post" action="Account/Register">
+    <form id="account" method="post" action="Account/Register" enctype="multipart/form-data">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-        <div class="form-group">
-            <label asp-for="Email" class="form-label">Twój adres e-mail</label>
-            <input asp-for="Email" class="form-control" autocomplete="email" aria-required="true" placeholder="Adres e-mail" />
-            <span asp-validation-for="Email" id="validation-email" class="text-danger"></span>
+
+        <div id="essential">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="Email" class="form-label">Twój adres e-mail</label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Password" class="form-label">Hasło</label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ConfirmPassword" class="form-label">Hasło</label>
+                <input asp-for="ConfirmPassword" class="form-control" autocomplete="off" />
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+
+            <div class="checkbox">
+                <input type="checkbox" class="form-check-input" id="statute-checkbox">
+                <label class="form-check-label" for="exampleCheck1">
+                    Zapoznałem się z <a href="#">regulaminem</a> usługi
+                </label>
+                <span id="validation-statute-checkbox" class="text-danger"></span>
+                <br>
+                <small id="emailHelp" class="form-text text-muted">
+                    Na podany adres e-mail, wyślemy za chwilę wiadomość aktywacyjną. Postępuj zgodnie z instrukcjami zawartymi w wiadomości.
+                </small>
+            </div>
         </div>
 
-        <div class="form-group">
-            <label asp-for="Password" class="form-label">Hasło</label>
-            <input asp-for="Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Hasło" />
-            <span asp-validation-for="Password" id="validation-password" class="text-danger"></span>
+
+
+
+
+
+        <div id="profile" style="display: none;">
+            <div class="row p-1">
+                <div class="col-sm-4 mt-1">
+
+                    <div class="form-group">
+                        <div id="theparent" class="img-fluid mx-auto d-block d-flex justify-content-center">
+                            <img id="serviceImagePreview" src="~/img/addPhoto.svg">
+                        </div>
+
+                        <div id="controls" class="my-3" style="background-color: #1b1b1b; text-align: center; display: none;">
+                            <a href="#" onclick="$('#serviceImagePreview').guillotine('zoomOut');" title="Zoom out"><i class="fa fa-search-minus"></i></a>
+                            <a href="#" onclick="$('#serviceImagePreview').guillotine('fit');" title="Fit image"><i class="fa fa-arrows-alt"></i></a>
+                            <a href="#" onclick="$('#serviceImagePreview').guillotine('zoomIn');" title="Zoom in"><i class="fa fa-search-plus"></i></a>
+                        </div>
+                        <div class="m-3">
+                            <span class="btn btn-primary btn-file">
+                                Wybierz zdjęcie<input asp-for="ProfileImage" type="file" accept="image/png, image/jpg, image/jpeg" class="form-control">
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-8 mt-1">
+
+                    <div class="form-group">
+                        <label asp-for="FirstName" class="form-label">Imię:</label>
+                        <input asp-for="FirstName" class="form-control" />
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="LastName" class="form-label">Nazwisko:</label>
+                        <input asp-for="LastName" class="form-control" />
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="BirthDate" class="form-label">Data urodzenia:</label>
+                        <input asp-for="BirthDate" class="form-control" value=""/>
+                        <span asp-validation-for="BirthDate" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="PhoneNumber" class="form-label">Numer Telefonu:</label>
+                        <input asp-for="PhoneNumber" class="form-control" />
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    </div>
+
+                </div>
+            </div>
         </div>
 
-        <div class="form-group">
-            <label asp-for="ConfirmPassword" class="form-label">Hasło</label>
-            <input asp-for="ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Hasło" />
-            <span asp-validation-for="ConfirmPassword" id="validation-confirm-password" class="text-danger"></span>
-        </div>
 
-        <div class="checkbox">
-            <input type="checkbox" class="form-check-input" id="statute-checkbox">
-            <label class="form-check-label" for="exampleCheck1">
-                Zapoznałem się z <a href="#">regulaminem</a> usługi
-            </label>
-            <span id="validation-statute-checkbox" class="text-danger"></span>
-            <br>
-            <small id="emailHelp" class="form-text text-muted">
-                Na podany adres e-mail, wyślemy za chwilę wiadomość aktywacyjną. Postępuj zgodnie z instrukcjami zawartymi w wiadomości.
-            </small>
-        </div>
+        <div id="address" style="display: none;">
 
+            <div class="form-group">
+                <label asp-for="Address1" class="form-label">Ulica:</label>
+                <input asp-for="Address1" class="form-control" />
+                <span asp-validation-for="Address1" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Address2" class="form-label">Numer domu/ mieszkanie:</label>
+                <input asp-for="Address2" class="form-control" />
+                <span asp-validation-for="Address2" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="PostCode" class="form-label">Kod pocztowy:</label>
+                <input asp-for="PostCode" class="form-control" />
+                <span asp-validation-for="PostCode" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="City" class="form-label">Poczta:</label>
+                <input asp-for="City" class="form-control" />
+                <span asp-validation-for="City" class="text-danger"></span>
+            </div>
+
+        </div>
     </form>
 </div>
-<div class="modal-footer" id="Modal1Footer">
+<div class="modal-footer">
     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
-    <button id="login-submit" type="submit" form="account" class="btn btn-outline-success">Zapisz</button>
+
+    <button type="button" id="next1" class="btn btn-outline-success" onclick="clickF(1)">Dalej</button>
+
+    <button type="button" id="back1" class="btn btn-outline-secondary" onclick="clickF(0)" style="display: none;">Wstecz</button>
+    <button type="button" id="next2" class="btn btn-outline-success" onclick="clickF(2)" style="display: none;">Dalej</button>
+
+    <button type="button" id="back2" class="btn btn-outline-secondary" onclick="clickF(1)" style="display: none;">Wstecz</button>
+    <button type="submit" id="login-submit" form="account" class="btn btn-success" style="display: none;">Zapisz</button>
 </div>
