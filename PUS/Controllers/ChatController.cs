@@ -166,9 +166,9 @@ namespace PUS.Controllers
                     Position = i++,
                     LastUpdate = item.LastUpdate,
                     ServiceTitle = item.ServiceTitle,
-                    User = item.UserName,
+                    UserName = item.UserName,
                     UserId = item.UserId,
-                    TransactionStatus = ChatListViewModel.Status.Pending,
+                    TransactionStatus = Transaction.Status.Pending,
                     ServiceId = item.ServiceId,
                     ChatId = item.ChatId
                 };

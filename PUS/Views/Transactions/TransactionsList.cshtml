@@ -1,0 +1,66 @@
+﻿@model IEnumerable<PUS.ViewModels.TransactionListViewModel>
+
+<div class="modal-header">
+    <h5 class="modal-title">
+        <i class="fa-solid fa-right-left"></i> Transakcje aktywne
+    </h5>
+    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+</div>
+<div class="modal-body">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Termin</th>
+                            <th scope="col">Oferta</th>
+                            <th scope="col">Kto?</th>
+                            <th scope="col">EQI</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">&nbsp;</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+
+                            <tr>
+                                <td>@item.Position</td>
+                                <td>@item.DueDate</td>
+                                <td>@item.ServiceTitle</td>
+                                <td>@item.UserName</td>
+                                <td>@item.EQI</td>
+                                <td>
+                                    @switch (item.TransactionStatus)
+                                    {
+                                        case Transaction.Status.Accept:
+                                            <i class="fa-solid fa-check text-success"></i>
+                                            break;
+                                        case Transaction.Status.Deny:
+                                            <i class="fa-solid fa-xmark text-danger"></i>
+                                            break;
+                                        case Transaction.Status.Pending:
+                                            <i class="fas fa-sync fa-spin"></i>
+                                            break;
+                                    }
+                                </td>
+                                <td class="text-success">
+                                    <div class="btn-group btn-group-sm mt-1" role="group" aria-label="menu">
+                                        <button onclick="" type="button" class="btn btn-outline-primary">
+                                            <i class="fa-solid fa-comments"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
+</div>

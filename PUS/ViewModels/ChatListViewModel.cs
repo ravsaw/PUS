@@ -1,20 +1,16 @@
 ﻿using Humanizer;
+using PUS.Models;
 using static System.Formats.Asn1.AsnWriter;
 
 namespace PUS.ViewModels
 {
     public class ChatListViewModel
     {
-        public enum Status
-        {
-            Pending, Accept, Deny
-        }
-
         public int Position { get; set; }
         public DateTime LastUpdate { get; set; }
         public string ServiceTitle { get; set; }
-        public string User { get; set; }
-        public Status TransactionStatus { get; set; }
+        public string UserName { get; set; }
+        public Transaction.Status TransactionStatus { get; set; }
         public bool HaveTransaction { get; set; }
 
         public string UserId { get; set; }

@@ -51,5 +51,11 @@ namespace PUS.Controllers
 
             return Ok();
         }
+
+        public IActionResult TransactionsList()
+        {
+
+            return PartialView();
+        }
     }
 }
