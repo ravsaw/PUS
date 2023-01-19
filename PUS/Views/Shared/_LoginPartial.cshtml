@@ -8,18 +8,30 @@
     {
         /*
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>
-        </li>
-        */
+        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>
+                </li>
+                */
 
         <li class="nav-item dropdown mr-2">
             <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="true">
                 Twoje oferty
             </a>
             <ul class="dropdown-menu  dropdown-menu-end" aria-labelledby="navbarNavDarkDropdown">
-                <li><a class="dropdown-item" href="javascript:show_modal_details('/Services/Create')">Dodaj ofertę</a></li>
-                <li><a class="dropdown-item" href="javascript:show_modal_details('/Services/ActiveList')">Aktywne oferty</a></li>
-                <li><a class="dropdown-item" href="javascript:show_modal_details('/Services/ArchiveList')">Archiwum ofert</a></li>
+                <li>
+                    <a class="dropdown-item" href="javascript:show_modal_details('/Services/Create')">
+                        Dodaj ofertę
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="javascript:show_modal_details('/Services/ActiveList')">
+                        Aktywne oferty
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="javascript:show_modal_details('/Services/ArchiveList')">
+                        Archiwum ofert
+                    </a>
+                </li>
 
             </ul>
         </li>
@@ -28,28 +40,39 @@
 
             <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="true">
                 Zamówienia
-               @* <sup><span class=" badge rounded-pill bg-danger">4</span></sup> *@
+                @* <sup><span class=" badge rounded-pill bg-danger">4</span></sup> *@
 
             </a>
 
             <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
                 <li>
-                    <a class="dropdown-item">
-                        Ustalenia <sup><span class=" badge rounded-pill bg-danger">2</span></sup>
+                    <a class="dropdown-item" href="javascript:show_modal_details('/Chat/ChatList')">
+                        Ustalenia @{
+                            /*<sup><span class=" badge rounded-pill bg-danger">2</span></sup>*/
+                        }
                     </a>
                 </li>
                 <li>
                     <a class="dropdown-item">
-                        Transakcje aktywne <sup><span class=" badge rounded-pill bg-danger">2</span></sup>
+                        Transakcje aktywne @{
+                            /*<sup><span class=" badge rounded-pill bg-danger">2</span></sup>*/
+                        }
                     </a>
                 </li>
-                <li>
-                    <a class="dropdown-item">Kalendarz</a>
-                </li>
-                <li>
-                    <a class="dropdown-item">Archiwum transakcji</a>
-                </li>
-
+                @{
+                    /*
+                    <li>
+                    <a class="dropdown-item">
+                    Kalendarz
+                    </a>
+                    </li>
+                    <li>
+                    <a class="dropdown-item">
+                    Archiwum transakcji
+                    </a>
+                    </li>
+                    */
+                }
             </ul>
         </li>
 
@@ -58,19 +81,23 @@
                 @(UserManager.GetUserName(User))
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarNavDarkDropdown">
-                <li>
+                @{
+                    /*
+                    <li>
                     <a class="dropdown-item">
-                        Mój profil
+                    Mój profil
                     </a>
-                </li>
-                <li>
+                    </li>
+                    <li>
                     <a class="dropdown-item">
-                        Zmiana hasła
+                    Zmiana hasła
                     </a>
-                </li>
-                <li>
+                    </li>
+                    <li>
                     <hr class="dropdown-divider">
-                </li>
+                    </li>
+                    */
+                }
                 <li>
                     <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
                         <button type="submit" class="dropdown-item">Wyloguj</button>

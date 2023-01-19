@@ -1,0 +1,54 @@
+﻿@model IEnumerable<PUS.ViewModels.ChatListViewModel>
+
+    <div class="modal-header">
+        <h5 class="modal-title"><i class="fa-solid fa-comments"></i> Ustalenia</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Ostatni post</th>
+                                <th scope="col">Oferta</th>
+                                <th scope="col">Kto</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">&nbsp;</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.Position</td>
+                                <td>@item.LastUpdate</td>
+                                <td>@item.ServiceTitle</td>
+                                <td>@item.User</td>
+                                <td></td>
+                                <td class="text-success">
+                                    <div class="btn-group btn-group-sm mt-1" role="group" aria-label="menu">
+                                        <button onclick="show_modal_details('@($"/Chat/Index?serviceID={item.ServiceId}&userID={item.UserId}")')" type="button" class="btn btn-outline-primary">
+                                            <i class="fa-solid fa-comments"></i>
+                                        </button>
+                                        @if (item.HaveTransaction)
+                                        {
+                                        <button onclick="" type="button" class="btn btn-outline-primary">
+                                            <i class="fa-solid fa-fa-right-left"></i>
+                                        </button>
+                                        }
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
+    </div>

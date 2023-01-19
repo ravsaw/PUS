@@ -1,11 +1,5 @@
 {
   "dependencies": {
-    "mssql1": {
-      "secretStore": "LocalSecretsFile",
-      "type": "mssql.onprem",
-      "connectionId": "ConnectionStrings:mariadb",
-      "dynamicId": null
-    },
     "secrets1": {
       "secretStore": null,
       "resourceId": null,
@@ -14,9 +8,9 @@
     },
     "mssql1": {
       "secretStore": "LocalSecretsFile",
+      "resourceId": null,
       "type": "mssql.local",
-      "connectionId": "ConnectionStrings:devdb",
-      "dynamicId": null
+      "connectionId": "ConnectionStrings:devdb"
     }
   }
 }

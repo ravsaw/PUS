@@ -116,5 +116,66 @@ namespace PUS.Controllers
             return PartialView("Index", vm);
         }
 
+
+        [HttpGet]
+        public IActionResult ChatList()
+        {
+
+
+            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var currentUser = _context.Profiles.First(p => p.Id == currentUserId);
+
+
+            var query = _context.Services
+                .Include(s => s.Owner)
+                .Where(s => s.Owner.Id == currentUserId)
+                .Join(
+                    _context.Chats,
+                    service => service.Id,
+                    chat => chat.Service.Id,
+                    (service, chat) => new
+                    {
+                        service,
+                        chat
+                    }
+                )
+                .Join(
+                    _context.Profiles,
+                    sc => sc.chat.Client.Id,
+                    profile => profile.Id,
+                    (sc, profile) => new
+                    {
+                        sc.chat.LastUpdate,
+                        ServiceTitle = sc.service.Title,
+                        ServiceId = sc.service.Id,
+                        UserName = profile.FirstName + " " + profile.LastName,
+                        UserId = profile.Id,
+                        ChatId = sc.chat.Id
+                    }
+                )
+                .OrderBy(q => q.LastUpdate);
+
+            int i = 0;
+            var list = new List<ChatListViewModel>();
+
+
+            foreach (var item in query)
+            {
+                var vm = new ChatListViewModel()
+                {
+                    Position = i++,
+                    LastUpdate = item.LastUpdate,
+                    ServiceTitle = item.ServiceTitle,
+                    User = item.UserName,
+                    UserId = item.UserId,
+                    TransactionStatus = ChatListViewModel.Status.Pending,
+                    ServiceId = item.ServiceId,
+                    ChatId = item.ChatId
+                };
+                list.Add(vm);
+            }
+
+            return PartialView("ChatList", list);
+        }
     }
 }
