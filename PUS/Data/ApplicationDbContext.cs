@@ -27,6 +27,7 @@ namespace PUS.Data
         public DbSet<Profile> Profiles { get; set; } = null!;
         public DbSet<Chat> Chats { get; set; } = null!;
         public DbSet<ChatLine> ChatLines { get; set; } = null!;
+        public DbSet<Transaction> Transactions { get; set; } = null!;
     }
 
     public class DateOnlyConverter : ValueConverter<DateOnly, DateTime>

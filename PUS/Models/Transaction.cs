@@ -16,7 +16,9 @@ namespace PUS.Models
         public string Remarks { get; set; }
         public DateTime ExchangeDate { get; set; }
         public int EQI { get; set; }
-        public Service Service { get; set; }
+        public Status TransactionStatus { get; set; }
+
+        //public Service Service { get; set; }
         public Profile Client { get; set; }
 
     }

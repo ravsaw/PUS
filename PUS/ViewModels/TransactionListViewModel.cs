@@ -15,7 +15,7 @@ namespace PUS.ViewModels
          */
 
         public int Position { get; set; }
-        public DateTime DueDate { get; set; }
+        public DateTime ExchangeDate { get; set; }
         public string ServiceTitle { get; set; }
         public string UserName { get; set; }
         public int EQI { get; set; }

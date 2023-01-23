@@ -15,5 +15,6 @@ namespace PUS.Models
 
 		public Profile Owner { get; set; }
         public ICollection<Chat> Chats { get; set; }
+        public ICollection<Transaction> Transactions { get; set; }
     }
 }

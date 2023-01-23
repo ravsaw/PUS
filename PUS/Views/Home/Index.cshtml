@@ -1,4 +1,4 @@
-﻿@model IEnumerable<PUS.Models.Service>
+﻿@model IEnumerable<PUS.ViewModels.HomeViewModel>
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<Profile> SignInManager
 @inject UserManager<Profile> UserManager
@@ -26,7 +26,7 @@
         @foreach (var item in Model)
         {
             <div class="card m-2" style="width: 18rem;">
-                <img src=@($"img/services/{item.Id}.jpeg") onerror="this.src='img/placeholders/placeholder.png';" class="card-img-top ratio ratio-4x3" alt="...">
+                <img src=@($"img/services/{item.ServiceId}.jpeg") onerror="this.src='img/placeholders/placeholder.png';" class="card-img-top ratio ratio-4x3" alt="...">
 
                 <div class="card-body m-0 p-0">
 
@@ -34,19 +34,19 @@
                     {
                         <div class="progress mt-1" style="height: 5px">
 
-                            <div class="progress-bar bg-success" role="progressbar" style="width: @(item.Owner.GoodLevel)%" aria-valuenow="@(item.Owner.GoodLevel)" aria-valuemin="0" aria-valuemax="100"></div>
-                            <div class="progress-bar bg-warning" role="progressbar" style="width: @(item.Owner.NeutralLevel)%" aria-valuenow="@(item.Owner.NeutralLevel)" aria-valuemin="0" aria-valuemax="100"></div>
-                            <div class="progress-bar bg-danger" role="progressbar" style="width: @(item.Owner.BadLevel)%" aria-valuenow="@(item.Owner.BadLevel)" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar bg-success" role="progressbar" style="width: @(item.OwnerGoodLevel)%" aria-valuenow="@(item.OwnerGoodLevel)" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar bg-warning" role="progressbar" style="width: @(item.OwnerNeutralLevel)%" aria-valuenow="@(item.OwnerNeutralLevel)" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar bg-danger" role="progressbar" style="width: @(item.OwnerBadLevel)%" aria-valuenow="@(item.OwnerBadLevel)" aria-valuemin="0" aria-valuemax="100"></div>
 
                         </div>
 
                         <div class="btn-group btn-group-sm mt-1 w-100" role="group" aria-label="menu">
 
-                            <button onclick="show_modal_details('@($"/User/Details/{item.Owner.Id}")')" type="button" class="btn btn-outline-secondary">
+                            <button onclick="show_modal_details('@($"/User/Details/{item.OwnerId}")')" type="button" class="btn btn-outline-secondary">
                                 <i class="fa-solid fa-user-large"></i>
                             </button>
 
-                            <button onclick="show_modal_details('@($"/Services/Details/{item.Id}")')" type="button" class="btn btn-outline-secondary">
+                            <button onclick="show_modal_details('@($"/Services/Details/{item.ServiceId}")')" type="button" class="btn btn-outline-secondary">
                                 <i class="fa-solid fa-eye"></i>
                             </button>
 
@@ -54,11 +54,11 @@
                                 <i class="fa-solid fa-piggy-bank"></i> <b></b>
                             </button>
 
-                            <button onclick="show_modal_details('@($"/Chat/Index?serviceID={item.Id}")')" type="button" class="btn btn-outline-secondary">
+                            <button onclick="show_modal_details('@($"/Chat/Index?serviceID={item.ServiceId}")')" type="button" class="btn btn-outline-secondary">
                                 <i class="fa-solid fa-comments"></i>
                             </button>
 
-                            <button onclick="show_modal_details('@($"/Transactions/Create?serviceID={item.Id}")')" type="button" class="btn btn-outline-secondary">
+                            <button onclick="show_modal_details('@($"/Transactions/Create?serviceID={item.ServiceId}")')" type="button" class="btn btn-outline-secondary">
                                 <i class="fa-solid fa-right-left"></i>
                             </button>
 
@@ -68,7 +68,7 @@
                         </div>
                     }
 
-                    <p class="card-text mt-1 mb-1">@Html.DisplayFor(modelItem => item.Title)</p>
+                    <p class="card-text mt-1 mb-1">@item.ServiceTitle</p>
 
                 </div>
             </div>

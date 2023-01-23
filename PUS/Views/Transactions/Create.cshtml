@@ -7,23 +7,28 @@
 </div>
 <div class="modal-body">
     <div class="container">
-        <div class="row">
-            <div class="col-sm-4">
-                <img class="img-fluid" src=@($"img/services/{Model.ServiceId}.jpeg") onerror="this.src='img/placeholder.png';">
+        <form id="transaction" method="post" action="Transactions/Create">
+            <div class="row">
+                <div class="col-sm-4">
+                    <img class="img-fluid" src=@($"img/services/{Model.ServiceId}.jpeg") onerror="this.src='img/placeholder.png';">
+                </div>
+                <div class="col-sm-8">
+                    <b>@Model.ServiceTitle</b>.
+                    <br>
+                    Propozycja wymiany, oferent:<input asp-for=OfferTo class="form-control m-1" aria-label="praca" placeholder="Oferta">
+                    Ofertobiorca:<input asp-for=OfferBack class="form-control m-1" aria-label="praca" placeholder="W zamian za ofertę">
+                    Data wymiany:<input asp-for=ExchangeDate class="form-control m-1" aria-label="praca">
+                    Wartość EQI:<input asp-for=EQI class="form-control m-1" aria-label="praca" placeholder="0">
+                    Uwagi:<input asp-for=Remarks class="form-control m-1" aria-label="praca" placeholder="Uwagi dotyczące wymiany.">
+                    <input asp-for=ServiceId type="hidden" />
+                    <input asp-for=ServiceTitle type="hidden" />
+                    <input asp-for=ClientId type="hidden" />
+                </div>
             </div>
-            <div class="col-sm-8">
-                <b>@Model.ServiceTitle</b>.
-                <br>
-                Propozycja wymiany, oferent:<input type="text" class="form-control m-1" aria-label="praca" placeholder="Oferta">
-                Ofertobiorca:<input type="text" class="form-control m-1" aria-label="praca" placeholder="W zamian za ofertę">
-                Data wymiany:<input type="datetime-local" class="form-control m-1" aria-label="praca">
-                Wartość EQI:<input type="number" class="form-control m-1" aria-label="praca" placeholder="0">
-                Uwagi:<input type="text" class="form-control m-1" aria-label="praca" placeholder="Uwagi dotyczące wymiany.">
-            </div>
-        </div>
+        </form>
     </div>
 </div>
 <div class="modal-footer">
     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
-    <button onclick="" type="button" class="btn btn-outline-success">Zamów</button>
+    <button type="submit" form="transaction" class="btn btn-outline-success">Zamów</button>
 </div>
