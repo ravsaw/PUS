@@ -7,3 +7,11 @@
 /**/bin/
 /**/obj/
 _site
+
+!/PUS/wwwroot/img/placeholders/
+
+!PUS/wwwroot/img/services/dummy.txt
+/PUS/wwwroot/img/services/
+
+!PUS/wwwroot/img/users/dummy.txt
+/PUS/wwwroot/img/users/

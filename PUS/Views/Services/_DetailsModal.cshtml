@@ -33,12 +33,14 @@
 
     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
 
-    <button onclick="" type="button" class="btn btn-outline-primary">
-        <i class="fa-solid fa-comments"></i>
-    </button>
+    @if (!Model.IsArchived && @ViewBag.Owner == false)
+    {
+        <button onclick="show_modal_details('@($"/Chat/Index?serviceID={Model.Id}")')" type="button" class="btn btn-outline-primary">
+            <i class="fa-solid fa-comments"></i>
+        </button>
 
-    <button onclick="" type="button" class="btn btn-outline-success">
-        <i class="fa-solid fa-right-left"></i>
-    </button>
-
+        <button onclick="show_modal_details('@($"/Transactions/Create?serviceID={Model.Id}")')" type="button" class="btn btn-outline-success">
+            <i class="fa-solid fa-right-left"></i>
+        </button>
+    }
 </div>

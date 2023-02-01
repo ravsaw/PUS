@@ -23,11 +23,23 @@ namespace PUS.Controllers
         {
 
             var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = _context.Users.FirstOrDefault(u => u.Id == currentUserId);
+
+            if(user != null)
+            {
+                TempData["FullName"] = user.FullName;
+            } else
+            {
+                TempData["FullName"] = "";
+            }
+
+
             var dateNow = DateTime.Now;
 
             var services = await _context.Services
                 .Where(s => s.StartDate < dateNow)
                 .Where(s => s.EndDate > dateNow)
+                .Where(s => !s.IsArchived)
                 .OrderBy(s => s.StartDate)
                 .Include(s => s.Owner)
                 .Where(s => s.Owner.Id != currentUserId)

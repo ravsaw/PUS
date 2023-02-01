@@ -3,6 +3,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PUS.Models
 {
+
+    [Table("Chats")]
     public class Chat
     {
         [Key]
@@ -11,6 +13,6 @@ namespace PUS.Models
         public Profile Client { get; set; }
         public Service Service { get; set; }
 
-        public ICollection<ChatLine> ChatLines { get; set; }
+        public ICollection<ChatLine> ChatLines { get; set; } = new List<ChatLine>();
     }
 }

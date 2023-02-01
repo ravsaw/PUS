@@ -12,9 +12,11 @@ namespace PUS.Models
         public string Description { get; set; } = string.Empty;
         public DateTime StartDate { get; set; }
         public DateTime? EndDate { get; set; }
+        public bool IsArchived { get; set; }
 
+        [Required]
 		public Profile Owner { get; set; }
-        public ICollection<Chat> Chats { get; set; }
-        public ICollection<Transaction> Transactions { get; set; }
+        public ICollection<Chat> Chats { get; set; } = new List<Chat>();
+        public ICollection<Transaction> Transactions { get; set; } = new List<Transaction>();
     }
 }

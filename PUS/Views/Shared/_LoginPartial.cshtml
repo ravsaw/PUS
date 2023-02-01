@@ -78,7 +78,7 @@
 
         <li class="nav-item dropdown mr-2">
             <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="true">
-                @(UserManager.GetUserName(User))
+                @TempData["FullName"]
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarNavDarkDropdown">
                 @{

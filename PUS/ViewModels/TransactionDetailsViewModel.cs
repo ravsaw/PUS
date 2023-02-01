@@ -4,21 +4,16 @@ using System.ComponentModel.DataAnnotations;
 
 namespace PUS.ViewModels
 {
-    public class TransactionCreateViewModel
+    public class TransactionDetailsViewModel
     {
 
         public string ServiceTitle { get; set; }
-
-        [Required(ErrorMessage = "Pole jest wymagane.")]
+        public string ClientName { get; set; }
         public string OfferTo { get; set; }
-
-        [Required(ErrorMessage = "Pole jest wymagane.")]
         public string OfferBack { get; set; }
-        public DateTime ExchangeDate { get; set; } = new DateTime(DateTime.Now.Ticks / 600000000 * 600000000);
+        public DateTime ExchangeDate { get; set; }
         public int EQI { get; set; }
         public string? Remarks { get; set; }
-
-        public string ClientId { get; set; }
         public int ServiceId { get; set; }
     }
 }

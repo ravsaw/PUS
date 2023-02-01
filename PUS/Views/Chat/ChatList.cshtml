@@ -30,7 +30,7 @@
                                 <td></td>
                                 <td class="text-success">
                                     <div class="btn-group btn-group-sm mt-1" role="group" aria-label="menu">
-                                        <button onclick="show_modal_details('@($"/Chat/Index?serviceID={item.ServiceId}&userID={item.UserId}")')" type="button" class="btn btn-outline-primary">
+                                        <button onclick="show_modal_details('@($"/Chat/Index?serviceID={item.ServiceId}&clientID={item.UserId}")')" type="button" class="btn btn-outline-primary">
                                             <i class="fa-solid fa-comments"></i>
                                         </button>
                                         @if (item.HaveTransaction)

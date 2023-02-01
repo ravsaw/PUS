@@ -21,33 +21,44 @@ namespace PUS.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index(int serviceID, string? userID = "")
+        public async Task<IActionResult> Index(int serviceID, string? clientID = "")
         {
             var vm = new ChatViewModel();
+
+            var service = await _context.Services
+                        .Where(s => s.Id == serviceID)
+                        .Include(s => s.Owner)
+                        .Include("Chats.ChatLines")
+                        .FirstOrDefaultAsync();
 
             var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var currentUser = _context.Profiles.First(p => p.Id == currentUserId);
             vm.currentUserID = currentUserId;
 
+
             Profile? user;
-            if (userID == "")
+            if (clientID == "")
             {
                 user = currentUser;
             }
             else
             {
-                user = _context.Profiles.FirstOrDefault(p => p.Id == userID);
+                user = _context.Profiles.FirstOrDefault(p => p.Id == clientID);
             }
 
-            var service = await _context.Services
-                        .Where(s => s.Id == serviceID)
-                        .Include("Chats.ChatLines")
-                        .FirstOrDefaultAsync();
 
             if (service == null || user == null)
             {
-                return Json(Status.Unknow);
+                return Json(Status.UserShouldntTalkWithHimself);
             }
+
+            if (service.Owner.Id == user?.Id)
+            {
+                return Json(Status.UserShouldntTalkWithHimself);
+            }
+
+            vm.OwnerName = service.Owner.FullName;
+            vm.ClientName = user!.FullName;
 
             var chat = service.Chats.Where(x => x.Client == user).FirstOrDefault();
             if (chat == null)
@@ -105,6 +116,7 @@ namespace PUS.Controllers
             }
 
             var chatLine = new ChatLine() { CreatedAt = DateTime.Now, Direction = direction, Text = message };
+            chat.LastUpdate = chatLine.CreatedAt;
             _context.Add(chatLine);
             chat.ChatLines.Add(chatLine);
             _context.Update(chat);
@@ -128,9 +140,8 @@ namespace PUS.Controllers
 
             var query = _context.Services
                 .Include(s => s.Owner)
-                .Where(s => s.Owner.Id == currentUserId)
                 .Join(
-                    _context.Chats,
+                    _context.Chats.Include(c => c.ChatLines).Where(c => c.ChatLines.Count > 0),
                     service => service.Id,
                     chat => chat.Service.Id,
                     (service, chat) => new
@@ -139,6 +150,7 @@ namespace PUS.Controllers
                         chat
                     }
                 )
+                .Where(sc => sc.chat.Client.Id == currentUserId || sc.service.Owner.Id == currentUserId)
                 .Join(
                     _context.Profiles,
                     sc => sc.chat.Client.Id,
@@ -148,7 +160,7 @@ namespace PUS.Controllers
                         sc.chat.LastUpdate,
                         ServiceTitle = sc.service.Title,
                         ServiceId = sc.service.Id,
-                        UserName = profile.FirstName + " " + profile.LastName,
+                        UserName = profile.FullName,
                         UserId = profile.Id,
                         ChatId = sc.chat.Id
                     }

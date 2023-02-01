@@ -52,16 +52,29 @@
 
 <div class="modal-body">
     <div class="container">
-        <div class="row">
 
+        <div class="row">
             <div class="alert alert-success w-100" role="alert">
                 <b>@Model.serviceTitle</b>
             </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm text-start">
+                <b>@Model.OwnerName</b>
+            </div>
+            <div class="col-sm text-end">
+                <b>@Model.ClientName</b>
+            </div>
+        </div>
+
+        <div class="row">
+
             <div id="chat-lines" class="mb-2" style="max-height: calc(60vh); max-width:inherit; overflow-y: auto; display: flex; flex-direction: column-reverse;">
                 @foreach (var item in Model.chatLines)
                 {
-                    var color = item.Direction == MessageDirection.From ? "bg-info" : "bg-warning";
-                    var side = item.Direction == MessageDirection.From ? "text-end" : "text-start";
+                    var color = item.Direction == MessageDirection.To ? "bg-info" : "bg-warning";
+                    var side = item.Direction == MessageDirection.To ? "text-end" : "text-start";
                     <div class=@side>
                         <sub>@item.CreatedAt</sub>
                         <br />
@@ -74,6 +87,8 @@
 
             <form id="message-form">
                 <div class="input-group w-100">
+                    <input type="hidden" name="OwnerName" value="@Model.OwnerName" />
+                    <input type="hidden" name="ClientName" value="@Model.ClientName" />
                     <input type="hidden" name="serviceID" value="@Model.serviceID" />
                     <input type="hidden" name="serviceTitle" value="@Model.serviceTitle" />
                     <input type="hidden" name="chatID" value="@Model.chatID" />
@@ -90,7 +105,7 @@
     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
         Zamknij
     </button>
-    <button onclick="" type="button" class="btn btn-outline-success">
+    <button onclick="show_modal_details('@($"/Transactions/Create?serviceID={Model.serviceID}")')" type="button" class="btn btn-outline-success">
         <i class="fa-solid fa-right-left"></i>
     </button>
 </div>

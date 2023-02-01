@@ -7,6 +7,11 @@
     "mssql1": {
       "type": "mssql",
       "connectionId": "ConnectionStrings:devdb"
+    },
+    "sqlite1": {
+      "type": "sqlite",
+      "connectionId": "ConnectionStrings:sqllite",
+      "dynamicId": null
     }
   }
 }

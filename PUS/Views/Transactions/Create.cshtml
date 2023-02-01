@@ -1,5 +1,59 @@
-﻿@using PUS.ViewModels;
-@model TransactionCreateViewModel
+﻿@model PUS.ViewModels.TransactionCreateViewModel
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
+@functions {
+    public string GetAntiXsrfRequestToken()
+    {
+        return Xsrf.GetAndStoreTokens(Context).RequestToken;
+    }
+}
+
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+<script>
+
+    $('#transaction').submit(function (e) {
+        e.preventDefault();
+
+        var formData = new FormData(this);
+
+        $(this).validate();
+        if ($(this).valid == false) {
+            console.log(this);
+            return false;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/Transactions/Create",
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            headers:
+            {
+                "RequestVerificationToken": '@GetAntiXsrfRequestToken()'
+            },
+            success: function (response) {
+                console.log("sukces");
+                console.log(response);
+                if (response.success) {
+                    window.location.reload();
+                } else {
+                    $("#partialModal").find(".modal-content").html(response);
+                }
+            },
+            failure: function (response) {
+                console.log("fail");
+                console.log(response);
+            },
+            error: function (response) {
+                console.log("error");
+                console.log(response);
+            }
+        });
+    });
+
+</script>
 
 <div class="modal-header">
     <h5 class="modal-title"><i class="fa-solid fa-right-left"></i> Zamówienie</h5>
@@ -15,11 +69,31 @@
                 <div class="col-sm-8">
                     <b>@Model.ServiceTitle</b>.
                     <br>
-                    Propozycja wymiany, oferent:<input asp-for=OfferTo class="form-control m-1" aria-label="praca" placeholder="Oferta">
-                    Ofertobiorca:<input asp-for=OfferBack class="form-control m-1" aria-label="praca" placeholder="W zamian za ofertę">
-                    Data wymiany:<input asp-for=ExchangeDate class="form-control m-1" aria-label="praca">
-                    Wartość EQI:<input asp-for=EQI class="form-control m-1" aria-label="praca" placeholder="0">
-                    Uwagi:<input asp-for=Remarks class="form-control m-1" aria-label="praca" placeholder="Uwagi dotyczące wymiany.">
+                    <div class="mb-2">
+                        Propozycja wymiany, oferent:
+                        <input asp-for=OfferTo class="form-control m-1" aria-label="praca" placeholder="Oferta">
+                        <span asp-validation-for="OfferTo" class="text-danger"></span>
+                    </div>
+                    <div class="mb-2">
+                        Ofertobiorca:
+                        <input asp-for=OfferBack class="form-control m-1" aria-label="praca" placeholder="W zamian za ofertę">
+                        <span asp-validation-for="OfferBack" class="text-danger"></span>
+                    </div>
+                    <div class="mb-2">
+                        Data wymiany:
+                        <input asp-for=ExchangeDate class="form-control m-1" aria-label="praca" step="1">
+                        <span asp-validation-for="ExchangeDate" class="text-danger"></span>
+                    </div>
+                    <div class="mb-2">
+                        Wartość EQI:
+                        <input asp-for=EQI class="form-control m-1" aria-label="praca" placeholder="0">
+                        <span asp-validation-for="EQI" class="text-danger"></span>
+                    </div>
+                    <div class="mb-2">
+                        Uwagi:
+                        <input asp-for=Remarks class="form-control m-1" aria-label="praca" placeholder="Uwagi dotyczące wymiany.">
+                        <span asp-validation-for="Remarks" class="text-danger"></span>
+                    </div>
                     <input asp-for=ServiceId type="hidden" />
                     <input asp-for=ServiceTitle type="hidden" />
                     <input asp-for=ClientId type="hidden" />

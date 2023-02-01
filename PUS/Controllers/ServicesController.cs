@@ -45,7 +45,7 @@ namespace PUS.Controllers
                 .Services
                 .Include(s => s.Owner)
                 .Where(s => s.Owner == user)
-                .Where(s => s.EndDate > DateTime.Now)
+                .Where(s => s.EndDate > DateTime.Now && !s.IsArchived)
                 .ToListAsync();
 
             return PartialView("SimpleList", services);
@@ -62,7 +62,7 @@ namespace PUS.Controllers
                 .Services
                 .Include(s => s.Owner)
                 .Where(s => s.Owner == user)
-                .Where(s => s.EndDate < DateTime.Now)
+                .Where(s => s.EndDate < DateTime.Now || s.IsArchived)
                 .ToListAsync();
 
             return PartialView("SimpleList", services);
@@ -83,14 +83,18 @@ namespace PUS.Controllers
                 return NotFound();
             }
 
-            var service = await _context.Services
+            var service = await _context
+                .Services
+                .Include(s => s.Owner)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             if (service == null)
             {
                 return NotFound();
             }
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
+            ViewBag.Owner = userId == service.Owner.Id;
             return PartialView("_DetailsModal", service);
             //return View(service);
         }
@@ -99,7 +103,6 @@ namespace PUS.Controllers
         public IActionResult Create()
         {
             var vm = new ServiceCreateViewModel();
-            vm.Title= "Title";
             return PartialView("Create", vm);
         }
 
@@ -211,20 +214,24 @@ namespace PUS.Controllers
         // POST: Services/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             if (_context.Services == null)
             {
-                return Problem("Entity set 'ApplicationDbContext.Services'  is null.");
+                return Json(new { success = false });
             }
             var service = await _context.Services.FindAsync(id);
             if (service != null)
             {
-                _context.Services.Remove(service);
+                service.IsArchived = true;
+                _context.Update(service);
             }
-
+            else
+            {
+                return Json(new { success = false });
+            }
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return Json(new { success = true });
         }
 
         private bool ServiceExists(int id)

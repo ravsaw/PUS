@@ -12,6 +12,9 @@
         //Register section
         EmailNeedConfirm = 100,
         EmailInUser = 101,
+
+        //Chats
+        UserShouldntTalkWithHimself = 200,
     }
 
     public class AccountRequestStatus

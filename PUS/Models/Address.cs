@@ -1,7 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PUS.Models
 {
+
+    [Table("Addresses")]
     public class Address
     {
         [Key]

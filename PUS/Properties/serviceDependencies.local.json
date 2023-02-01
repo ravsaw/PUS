@@ -11,6 +11,12 @@
       "resourceId": null,
       "type": "mssql.local",
       "connectionId": "ConnectionStrings:devdb"
+    },
+    "sqlite1": {
+      "secretStore": "LocalSecretsFile",
+      "type": "sqlite.local",
+      "connectionId": "ConnectionStrings:sqllite",
+      "dynamicId": null
     }
   }
 }

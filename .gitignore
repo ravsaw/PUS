@@ -365,12 +365,12 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 
-!/PUS/wwwroot/img/placeholders/*
+!/PUS/wwwroot/img/placeholders/
 
 !PUS/wwwroot/img/services/dummy.txt
-/PUS/wwwroot/img/services/*
+/PUS/wwwroot/img/services/
 
 !PUS/wwwroot/img/users/dummy.txt
-/PUS/wwwroot/img/users/*
+/PUS/wwwroot/img/users/
 
 .gitignore.bak

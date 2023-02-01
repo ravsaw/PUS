@@ -16,8 +16,13 @@ var builder = WebApplication.CreateBuilder(args);
 //var serverVersion = new MariaDbServerVersion(new Version(10, 10, 2));
 //builder.Services.AddDbContextPool<ApplicationDbContext>(options => options.UseMySql(connectionString, serverVersion));
 
-string connectionString = builder.Configuration.GetConnectionString("devdb");
-builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
+//string connectionString = builder.Configuration.GetConnectionString("devdb");
+//builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
+
+string connectionString = builder.Configuration.GetConnectionString("sqllite");
+builder.Services
+    .AddEntityFrameworkSqlite()
+    .AddDbContext<ApplicationDbContext>(options => options.UseSqlite(connectionString));
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -26,6 +31,14 @@ builder.Services.AddDefaultIdentity<Profile>(options => options.SignIn.RequireCo
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    //dbContext.Database.EnsureDeleted();
+    //dbContext.Database.EnsureCreated();
+    dbContext.Database.Migrate();
+}
 
 var cultures = new[]
 {

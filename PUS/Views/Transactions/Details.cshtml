@@ -1,0 +1,68 @@
+﻿@model PUS.ViewModels.TransactionDetailsViewModel
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
+@functions {
+    public string GetAntiXsrfRequestToken()
+    {
+        return Xsrf.GetAndStoreTokens(Context).RequestToken;
+    }
+}
+
+
+<div class="modal-header">
+    <h5 class="modal-title"><i class="fa-solid fa-right-left"></i> Zamówienie</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+<div class="modal-body">
+    <div class="container">
+        <form id="transaction" method="post" action="Transactions/Create">
+            <div class="row">
+                <div class="col-sm-4">
+                    <img class="img-fluid" src=@($"img/services/{Model.ServiceId}.jpeg") onerror="this.src='img/placeholder.png';">
+                </div>
+                <div class="col-sm-8">
+
+                    <div class="mb-2">
+                        Usługa: <b>@Model.ServiceTitle</b>.
+                    </div>
+
+                    <div class="mb-2">
+                        Oferta od: <b>@Model.ClientName</b>
+                    </div>
+
+                    <div class="mb-2">
+                        <b>Propozycja wymiany, oferent:</b>
+                        <br />
+                        @Model.OfferTo
+                    </div>
+
+                    <div class="mb-2">
+                        <b>Ofertobiorca: </b>
+                        <br />
+                        @Model.OfferBack
+                    </div>
+
+                    <div class="mb-2">
+                        <b>Data wymiany:</b>
+                        <br />
+                        @Model.ExchangeDate
+                    </div>
+
+                    <div class="mb-2">
+                        <b>Wartość EQI:</b>
+                        <br />
+                        @Model.EQI
+                    </div>
+
+                    <div class="mb-2">
+                        <b>Uwagi:</b>
+                        <br />
+                        @Model.Remarks
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
+</div>

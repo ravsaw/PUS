@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PUS.Models
 {
@@ -8,6 +9,7 @@ namespace PUS.Models
         To
     }
 
+    [Table("ChatLines")]
     public class ChatLine
     {
         [Key]

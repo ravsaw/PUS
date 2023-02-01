@@ -1,4 +1,49 @@
-﻿@model IEnumerable<PUS.Models.Service>
+﻿@model List<PUS.Models.Service>
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
+@functions {
+    public string GetAntiXsrfRequestToken()
+    {
+        return Xsrf.GetAndStoreTokens(Context).RequestToken;
+    }
+}
+
+
+
+<script>
+
+    function archiveService(id, i) {
+
+        console.log(id);
+        console.log("#" + i + "-row");
+        $.ajax({
+            type: "POST",
+            url: "/Services/Delete/" + id,
+            cache: false,
+            contentType: false,
+            processData: false,
+            headers:
+            {
+                "RequestVerificationToken": '@GetAntiXsrfRequestToken()'
+            },
+            success: function (response) {
+                console.log("sukces");
+                console.log(response);
+                console.log(response.success);
+                if (response.success) {
+                    document.getElementById(i+"-row").remove();
+                }
+            },
+            failure: function (response) {
+                console.log("fail");
+                console.log(response);
+            },
+            error: function (response) {
+                console.log("error");
+                console.log(response);
+            }
+        });
+    }
+</script>
 
 <div class="modal-header">
     <h5 class="modal-title"><i class="fa-solid fa-bars-progress"></i> @ViewBag.Title </h5>
@@ -23,29 +68,35 @@
                         @{
                             int i = 1;
                         }
-                        @foreach(var item in Model) 
+                        @foreach (var item in Model)
                         {
-                        <tr>
-                            <td>@i.</td>
-                            <td>@item.StartDate.Date</td>
-                            <td>@item.EndDate</td>
-                            <td>@item.Title</td>
-                            <td></td>
-                            <td class="text-success">
-                                <div class="btn-group btn-group-sm mt-1" role="group" aria-label="menu">
-                                    <button onclick="" type="button" class="btn btn-outline-primary">
-                                        <i class="fa-solid fa-pen-to-square"></i>
-                                    </button>
-                                    <button onclick="" type="button" class="btn btn-outline-primary">
-                                        <i class="fa-solid fa-eye"></i>
-                                    </button>
-                                    <button onclick="" type="button" class="btn btn-outline-danger">
-                                        <i class="fa-solid fa-trash-can"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        i++;
+                            <tr id="@i-row">
+                                <td>@i.</td>
+                                <td>@item.StartDate.Date</td>
+                                <td>@item.EndDate</td>
+                                <td>@item.Title</td>
+                                <td></td>
+                                <td class="text-success">
+                                    <div class="btn-group btn-group-sm mt-1" role="group" aria-label="menu">
+                                        @if (!item.IsArchived)
+                                        {
+                                            <button onclick="" type="button" class="btn btn-outline-primary">
+                                                <i class="fa-solid fa-pen-to-square"></i>
+                                            </button>
+                                        }
+                                        <button onclick="show_modal_details('@($"/Services/Details/{item.Id}")')" type="button" class="btn btn-outline-primary">
+                                            <i class="fa-solid fa-eye"></i>
+                                        </button>
+                                        @if (!item.IsArchived)
+                                        {
+                                            <button onclick="archiveService(@item.Id, @i)" type="button" class="btn btn-outline-danger">
+                                                <i class="fa-solid fa-trash-can"></i>
+                                            </button>
+                                        }
+                                    </div>
+                                </td>
+                            </tr>
+                            i++;
                         }
                     </tbody>
                 </table>
