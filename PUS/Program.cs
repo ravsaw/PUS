@@ -19,7 +19,7 @@ var builder = WebApplication.CreateBuilder(args);
 //string connectionString = builder.Configuration.GetConnectionString("devdb");
 //builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
 
-string connectionString = builder.Configuration.GetConnectionString("sqllite");
+string connectionString = "Data Source=.\\Data\\PusDB.db";
 builder.Services
     .AddEntityFrameworkSqlite()
     .AddDbContext<ApplicationDbContext>(options => options.UseSqlite(connectionString));
