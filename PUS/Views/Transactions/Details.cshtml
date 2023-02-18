@@ -1,12 +1,54 @@
 ﻿@model PUS.ViewModels.TransactionDetailsViewModel
+@using Microsoft.AspNetCore.Identity
 @inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
+@inject UserManager<Profile> UserManager
+
 @functions {
     public string GetAntiXsrfRequestToken()
     {
         return Xsrf.GetAndStoreTokens(Context).RequestToken;
     }
 }
+<script>
+    function acceptordeny(status) {
 
+        if (@((int)@Model.Status) != 0 && (status != 1 || status != 2)) {
+            return false;
+        }
+
+        var formData = new FormData();
+        formData.set("transactionID", @Model.TransactionId);
+        formData.set("status", status);
+
+
+        $.ajax({
+            type: "POST",
+            url: "/Transactions/ChangeStatus",
+            cache: false,
+            processData: false,
+            contentType: false,
+            data: formData,
+            headers:
+            {
+                "RequestVerificationToken": '@GetAntiXsrfRequestToken()'
+            },
+            success: function (response) {
+                $('#accept').hide();
+                $('#deny').hide();
+                console.log("sukces");
+                console.log(response);
+            },
+            failure: function (response) {
+                console.log("fail");
+                console.log(response);
+            },
+            error: function (response) {
+                console.log("error");
+                console.log(response);
+            }
+        });
+    }
+</script>
 
 <div class="modal-header">
     <h5 class="modal-title"><i class="fa-solid fa-right-left"></i> Zamówienie</h5>
@@ -22,11 +64,11 @@
                 <div class="col-sm-8">
 
                     <div class="mb-2">
-                        Usługa: <b>@Model.ServiceTitle</b>.
+                        <b>Usługa:</b> @Model.ServiceTitle
                     </div>
 
                     <div class="mb-2">
-                        Oferta od: <b>@Model.ClientName</b>
+                        <b>Oferta od:</b> @Model.ClientName
                     </div>
 
                     <div class="mb-2">
@@ -64,5 +106,18 @@
     </div>
 </div>
 <div class="modal-footer">
+    @{
+        var user = await UserManager.GetUserAsync(User);
+        var userId = user?.Id;
+        if (Model.Status == Transaction.Status.Pending && @Model.ownerId == userId)
+        {
+            <button type="button" id="accept" class="btn btn-outline-success" onclick="acceptordeny(1)">
+                <i class="fa-solid fa-check"></i>
+            </button>
+            <button type="button" id="deny" class="btn btn-outline-danger" onclick="acceptordeny(2)">
+                <i class="fa-solid fa-x"></i>
+            </button>
+        }
+    }
     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
 </div>

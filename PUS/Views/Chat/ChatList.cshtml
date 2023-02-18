@@ -27,7 +27,20 @@
                                 <td>@item.LastUpdate</td>
                                 <td>@item.ServiceTitle</td>
                                 <td>@item.UserName</td>
-                                <td></td>
+                                <td>
+                                    @switch (item.TransactionStatus)
+                                    {
+                                        case Transaction.Status.Accept:
+                                            <i class="fa-solid fa-check text-success"></i>
+                                            break;
+                                        case Transaction.Status.Deny:
+                                            <i class="fa-solid fa-xmark text-danger"></i>
+                                            break;
+                                        case Transaction.Status.Pending:
+                                            <i class="fas fa-sync fa-spin"></i>
+                                            break;
+                                    }
+                                </td>
                                 <td class="text-success">
                                     <div class="btn-group btn-group-sm mt-1" role="group" aria-label="menu">
                                         <button onclick="show_modal_details('@($"/Chat/Index?serviceID={item.ServiceId}&clientID={item.UserId}")')" type="button" class="btn btn-outline-primary">

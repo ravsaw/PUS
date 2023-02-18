@@ -6,9 +6,11 @@ namespace PUS.Models
     [Table("Transactions")]
     public class Transaction
     {
-        public enum Status
+        public enum Status : int
         {
-            Pending, Accept, Deny
+            Pending = 0, 
+            Accept = 1, 
+            Deny = 2
         }
 
         [Key]

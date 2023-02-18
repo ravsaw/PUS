@@ -32,7 +32,7 @@ namespace PUS.Controllers
 
             var transaction = await _context
                 .Transactions
-                .Include(t => t.Service)
+                .Include(t => t.Service).ThenInclude(s => s.Owner)
                 .Include(t => t.Client)
                 .FirstOrDefaultAsync(m => m.Id == transactionID);
 
@@ -52,9 +52,40 @@ namespace PUS.Controllers
                 OfferTo = transaction.OfferTo,
                 Remarks = transaction.Remarks == "" ? "brak" : transaction.Remarks,
                 ServiceId = transaction.Service.Id,
+                TransactionId = transaction.Id,
+                Status = transaction.TransactionStatus,
+                ownerId = transaction.Service.Owner.Id
             };
 
             return PartialView("Details", vm);
+        }
+
+
+        public async Task<IActionResult> ChangeStatus(int transactionID, Transaction.Status status)
+        {
+            if (_context.Transactions == null)
+            {
+                return Json(Status.TransactionsNotFound);
+            }
+
+            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var transaction = await _context.Transactions
+                .Include(t => t.Service).ThenInclude(s => s.Owner)
+                .Where(t => t.Service.Owner.Id == currentUserId)
+                .FirstOrDefaultAsync(m => m.Id == transactionID);
+
+            if (transaction == null)
+            {
+                return Json(Status.TransactionNotFound);
+            }
+
+            transaction.TransactionStatus = status;
+            _context.Entry(transaction)
+                .Property(t => t.TransactionStatus).IsModified = true;
+            _context.SaveChanges();
+
+            return Json(Status.Success);
         }
 
         public async Task<IActionResult> Create(int? serviceID)

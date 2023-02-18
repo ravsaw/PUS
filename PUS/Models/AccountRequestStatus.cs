@@ -15,6 +15,10 @@
 
         //Chats
         UserShouldntTalkWithHimself = 200,
+
+        //Transactions
+        TransactionsNotFound = 300,
+        TransactionNotFound = 301,
     }
 
     public class AccountRequestStatus
