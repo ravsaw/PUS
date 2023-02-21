@@ -12,17 +12,15 @@ using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//string connectionString = builder.Configuration.GetConnectionString("mariadb");
-//var serverVersion = new MariaDbServerVersion(new Version(10, 10, 2));
-//builder.Services.AddDbContextPool<ApplicationDbContext>(options => options.UseMySql(connectionString, serverVersion));
+string connectionString = "server=mariadb;port=3306;userid=root;password=verysecret;database=pus;";
+var serverVersion = new MariaDbServerVersion(new Version(10, 10, 2));
+builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseMySql(connectionString, serverVersion));
 
 //string connectionString = builder.Configuration.GetConnectionString("devdb");
 //builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
 
-string connectionString = "Data Source=.\\Data\\PusDB.db";
-builder.Services
-    .AddEntityFrameworkSqlite()
-    .AddDbContext<ApplicationDbContext>(options => options.UseSqlite(connectionString));
+//string connectionString = "Data Source=.\\Data\\PusDB.db";
+//builder.Services.AddEntityFrameworkSqlite().AddDbContext<ApplicationDbContext>(options => options.UseSqlite(connectionString));
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -35,9 +33,9 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    //dbContext.Database.EnsureDeleted();
-    //dbContext.Database.EnsureCreated();
-    dbContext.Database.Migrate();
+    dbContext.Database.EnsureDeleted();
+    dbContext.Database.EnsureCreated();
+    //dbContext.Database.Migrate();
 }
 
 var cultures = new[]

@@ -7,15 +7,25 @@ services:
       context: .
       dockerfile: PUS/Dockerfile
     ports:
-      - "8080:80"
+      - "80:80"
     depends_on:
-      - db
+      - mariadb
 
-  db:
-    image: "mcr.microsoft.com/mssql/server:2022-latest"
-    ports:
-        - "1433:1433"
-
+  mariadb:
+    image: mariadb:10.10.2
     environment:
-        SA_PASSWORD: "Rafiki_19"
-        ACCEPT_EULA: "Y"
+      MYSQL_ROOT_PASSWORD: verysecret
+      MYSQL_DATABASE: pus
+      MYSQL_USER: pususer
+      MYSQL_PASSWORD: secret
+    restart: on-failure
+
+
+#  db:
+#    image: "mcr.microsoft.com/mssql/server:2022-latest"
+#    ports:
+#        - "1433:1433"
+#
+#    environment:
+#        SA_PASSWORD: "Rafiki_19"
+#        ACCEPT_EULA: "Y"

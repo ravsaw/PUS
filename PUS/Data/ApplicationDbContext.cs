@@ -19,15 +19,15 @@ namespace PUS.Data
 
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
 
-            var connectionStringBuilder = new SqliteConnectionStringBuilder { DataSource = "PusDB.db" };
-            var connectionString = connectionStringBuilder.ToString();
-            var connection = new SqliteConnection(connectionString);
+            //var connectionStringBuilder = new SqliteConnectionStringBuilder { DataSource = "PusDB.db" };
+            //var connectionString = connectionStringBuilder.ToString();
+            //var connection = new SqliteConnection(connectionString);
 
-            optionsBuilder.UseSqlite(connection);
-        }
+            //optionsBuilder.UseSqlite(connection);
+        //}
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
